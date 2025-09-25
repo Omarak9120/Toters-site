@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/gen-qr.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "lint": "eslint .",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@sentry/browser": "^10.15.0",
     "lighthouse": "^12.8.2",
+    "qrcode": "^1.5.4",
     "start-server-and-test": "^2.1.2"
   }
 }

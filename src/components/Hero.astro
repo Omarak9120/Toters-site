@@ -148,6 +148,11 @@ const content = heroContent[locale as keyof typeof heroContent] || heroContent.e
               src="/src/assets/images/hero/phones-mockup.webp"
               alt={locale === 'ar' ? 'تطبيق توتيرز على الهاتف' : 'Toters App on Phone'}
               class="w-full h-auto object-cover"
+              width="720"
+              height="720"
+              loading="eager"
+              decoding="sync"
+              fetchpriority="high"
             />
           </div>
 
