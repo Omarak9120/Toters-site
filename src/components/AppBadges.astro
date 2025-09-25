@@ -1,0 +1,285 @@
+---
+export interface Props {
+  locale?: string;
+  variant?: 'light' | 'dark';
+  appStoreUrl?: string;
+  playStoreUrl?: string;
+}
+
+const { locale = 'en', variant = 'light', appStoreUrl = 'https://apps.apple.com/', playStoreUrl = 'https://play.google.com/store/apps/details' } = Astro.props;
+
+const isRTL = locale === 'ar';
+
+// App badges content translations
+const appBadgesContent = {
+  en: {
+    title: "Download Toters App",
+    subtitle: "Get the app and enjoy faster, more convenient delivery",
+    badges: {
+      appStore: {
+        label: "Download on the App Store",
+        href: appStoreUrl,
+        image: "/app-store-badge.png",
+        alt: "Download on the App Store"
+      },
+      googlePlay: {
+        label: "Get it on Google Play",
+        href: playStoreUrl,
+        image: "/google-play-badge.jpg",
+        alt: "Get it on Google Play"
+      }
+    },
+    features: [
+      "Real-time order tracking",
+      "Easy payment options",
+      "Exclusive app-only deals",
+      "Quick reordering"
+    ],
+    qrCode: {
+      label: "Scan QR code to download",
+      image: "/qr-code.svg",
+      alt: "QR Code to download Toters app"
+    }
+  },
+  ar: {
+    title: "تحميل تطبيق توتيرز",
+    subtitle: "احصل على التطبيق واستمتع بتوصيل أسرع وأكثر راحة",
+    badges: {
+      appStore: {
+        label: "تحميل من متجر التطبيقات",
+        href: appStoreUrl,
+        image: "/app-store-badge.png",
+        alt: "تحميل من متجر التطبيقات"
+      },
+      googlePlay: {
+        label: "احصل عليه من جوجل بلاي",
+        href: playStoreUrl,
+        image: "/google-play-badge.jpg",
+        alt: "احصل عليه من جوجل بلاي"
+      }
+    },
+    features: [
+      "تتبع الطلبات في الوقت الفعلي",
+      "خيارات دفع سهلة",
+      "عروض حصرية للتطبيق فقط",
+      "إعادة الطلب السريعة"
+    ],
+    qrCode: {
+      label: "امسح رمز QR للتحميل",
+      image: "/qr-code.svg",
+      alt: "رمز QR لتحميل تطبيق توتيرز"
+    }
+  }
+};
+
+const content = appBadgesContent[locale as keyof typeof appBadgesContent] || appBadgesContent.en;
+
+// Theme classes
+const themeClasses = {
+  light: {
+    container: "bg-white",
+    title: "text-gray-900",
+    subtitle: "text-gray-600",
+    features: "text-gray-700"
+  },
+  dark: {
+    container: "bg-gray-900",
+    title: "text-white",
+    subtitle: "text-gray-300",
+    features: "text-gray-300"
+  }
+};
+
+const theme = themeClasses[variant];
+---
+
+<section class={`py-16 ${theme.container}`} aria-labelledby="app-badges-title">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Content -->
+      <div class={`${isRTL ? 'lg:order-2' : ''}`}>
+        <div class="max-w-2xl">
+          <!-- Title -->
+          <h2 id="app-badges-title" class={`text-3xl sm:text-4xl font-bold ${theme.title} mb-4`}>
+            {content.title}
+          </h2>
+          
+          <!-- Subtitle -->
+          <p class={`text-xl ${theme.subtitle} mb-8`}>
+            {content.subtitle}
+          </p>
+
+          <!-- Features List -->
+          <ul class="space-y-3 mb-8">
+            {content.features.map((feature) => (
+              <li class={`flex items-center ${theme.features}`}>
+                <svg class="w-5 h-5 text-primary-600 mr-3 rtl:mr-0 rtl:ml-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <!-- Download Badges -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <a
+              href={content.badges.appStore.href}
+              class="inline-block transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg"
+              aria-label={content.badges.appStore.label}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="click_appstore"
+              data-label="hero_appstore"
+            >
+              <img
+                src={content.badges.appStore.image}
+                alt={content.badges.appStore.alt}
+                class="h-14 w-auto gpu"
+                width="120"
+                height="56"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <a
+              href={content.badges.googlePlay.href}
+              class="inline-block transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg"
+              aria-label={content.badges.googlePlay.label}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="click_playstore"
+              data-label="hero_play"
+            >
+              <img
+                src={content.badges.googlePlay.image}
+                alt={content.badges.googlePlay.alt}
+                class="h-14 w-auto gpu"
+                width="120"
+                height="56"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          </div>
+
+          <!-- QR Code -->
+          <div class="flex items-center space-x-4 rtl:space-x-reverse">
+            <div class="bg-white p-3 rounded-lg shadow-lg">
+              <img
+                src={content.qrCode.image}
+                alt={content.qrCode.alt}
+                class="w-20 h-20 gpu"
+                width="80"
+                height="80"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div>
+              <p class={`text-sm font-medium ${theme.title}`}>
+                {content.qrCode.label}
+              </p>
+              <p class={`text-xs ${theme.subtitle}`}>
+                {locale === 'ar' ? 'استخدم كاميرا هاتفك' : 'Use your phone camera'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Mockup -->
+      <div class={`${isRTL ? 'lg:order-1' : ''}`}>
+        <div class="relative">
+          <!-- Phone Frame -->
+          <div class="relative mx-auto w-80 h-[600px] bg-gray-900 rounded-[3rem] p-2 shadow-2xl">
+            <!-- Screen -->
+            <div class="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
+              <!-- Status Bar -->
+              <div class="absolute top-0 left-0 right-0 h-8 bg-gray-100 flex items-center justify-between px-6 text-xs font-medium text-gray-600">
+                <span>9:41</span>
+                <div class="flex items-center space-x-1">
+                  <div class="w-4 h-2 bg-gray-600 rounded-sm"></div>
+                  <div class="w-6 h-3 border border-gray-600 rounded-sm">
+                    <div class="w-4 h-2 bg-gray-600 rounded-sm m-0.5"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- App Content -->
+              <div class="pt-8 px-6">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                      <span class="text-white font-bold text-sm">T</span>
+                    </div>
+                    <span class="font-bold text-gray-900">Toters</span>
+                  </div>
+                  <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="bg-gray-100 rounded-xl p-3 mb-6">
+                  <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span class="text-gray-500 text-sm">
+                      {locale === 'ar' ? 'ابحث عن الطعام...' : 'Search for food...'}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="flex space-x-4 rtl:space-x-reverse mb-6 overflow-x-auto">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div class="flex-shrink-0 w-16 text-center">
+                      <div class="w-12 h-12 bg-gray-200 rounded-xl mx-auto mb-2"></div>
+                      <span class="text-xs text-gray-600">
+                        {locale === 'ar' ? `فئة ${i}` : `Category ${i}`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Restaurants -->
+                <div class="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div class="flex space-x-3 rtl:space-x-reverse">
+                      <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0"></div>
+                      <div class="flex-1">
+                        <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div class="h-3 bg-gray-200 rounded w-3/4 mb-1"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Bottom Navigation -->
+              <div class="absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex items-center justify-around">
+                {['home', 'search', 'orders', 'profile'].map((item) => (
+                  <div class="flex flex-col items-center space-y-1">
+                    <div class={`w-6 h-6 ${item === 'home' ? 'bg-primary-600' : 'bg-gray-400'} rounded`}></div>
+                    <span class={`text-xs ${item === 'home' ? 'text-primary-600' : 'text-gray-400'}`}>
+                      {locale === 'ar' 
+                        ? (item === 'home' ? 'الرئيسية' : item === 'search' ? 'بحث' : item === 'orders' ? 'الطلبات' : 'الملف')
+                        : item.charAt(0).toUpperCase() + item.slice(1)
+                      }
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Elements -->
+          <div class="absolute -top-4 -right-4 w-8 h-8 bg-primary-200 rounded-full animate-pulse"></div>
+          <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-secondary-200 rounded-full animate-pulse delay-1000"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

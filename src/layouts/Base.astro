@@ -1,0 +1,264 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  dir?: string;
+  ogImage?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
+}
+
+const {
+  title = "Toters",
+  description = "Get anything. Fast.",
+  lang = "en",
+  dir = "ltr",
+  ogImage = "/social/og-home-en.jpg",
+  appStoreUrl = "https://apps.apple.com/",
+  playStoreUrl = "https://play.google.com/store/apps/details",
+} = Astro.props;
+
+// Environment variables
+const PROD = import.meta.env.PROD;
+const SITE_ENV = import.meta.env.SITE_URL || Astro.site?.toString() || "https://www.totersapp.com";
+
+// Canonical + alt URLs
+const site = SITE_ENV;
+const path = Astro.url.pathname;
+const isAR = lang.startsWith("ar");
+
+function ensureLeadingSlash(p) { return p.startsWith("/") ? p : `/${p}`; }
+
+// EN canonical is path without `/ar` prefix; AR canonical is `/ar` + path (deduped)
+const canonical = new URL(
+  isAR ? path : ensureLeadingSlash(path),
+  site
+).toString();
+
+const altEN = new URL(
+  path.replace(/^\/ar(\/|$)/, "/"),
+  site
+).toString();
+
+const altAR = new URL(
+  path.startsWith("/ar") ? path : `/ar${ensureLeadingSlash(path)}`.replace(/\/ar\/ar\//, "/ar/"),
+  site
+).toString();
+
+const ogLocale = isAR ? "ar_LB" : "en_US";
+const ogLocaleAlt = isAR ? "en_US" : "ar_LB";
+
+// JSON-LD
+const orgJson = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Toters",
+  url: site,
+  logo: new URL("/assets/logo/toters-logo.svg", site).toString()
+};
+
+const appJson = {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  name: "Toters",
+  applicationCategory: "LifestyleApplication",
+  operatingSystem: "iOS, Android",
+  installUrl: [appStoreUrl, playStoreUrl],
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" href={altEN} hreflang="en" />
+    <link rel="alternate" href={altAR} hreflang="ar-LB" />
+    <link rel="alternate" href={altEN} hreflang="x-default" />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#10b981" />
+
+    <!-- Preconnect (optional if using web fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Favicons (place files under /public) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Toters" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {JSON.stringify(orgJson)}
+    </script>
+    <script type="application/ld+json">
+      {JSON.stringify(appJson)}
+    </script>
+
+    <!-- Analytics (Production Only) -->
+    {PROD && import.meta.env.GA_ID && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.GA_ID}`}></script>
+    )}
+    {PROD && import.meta.env.GA_ID && (
+      <script is:raw>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', '{import.meta.env.GA_ID}');
+      </script>
+    )}
+
+    {PROD && import.meta.env.PLAUSIBLE_DOMAIN && (
+      <script defer data-domain={import.meta.env.PLAUSIBLE_DOMAIN} src="https://plausible.io/js/script.js"></script>
+    )}
+
+    <!-- Astro/Styles -->
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+    <script type="module">
+      import { initFX } from "../lib/microFX.ts";
+
+      function boot(scope) {
+        try { initFX(scope); } catch (e) { console.error("[FX] init error", e); }
+      }
+
+      if (document.readyState !== "loading") boot();
+      else document.addEventListener("DOMContentLoaded", boot);
+
+      window.addEventListener("astro:page-load", boot);
+      window.addEventListener("astro:after-swap", boot);
+
+      // MutationObserver to catch counters added later
+      try {
+        const mo = new MutationObserver((mut) => {
+          for (const m of mut) {
+            for (const node of m.addedNodes) {
+              if (node instanceof HTMLElement &&
+                  (node.matches?.("[data-count], .counter, .js-count") ||
+                   node.querySelector?.("[data-count], .counter, .js-count"))) {
+                boot();
+                return;
+              }
+            }
+          }
+        });
+        mo.observe(document.body, { childList: true, subtree: true });
+      } catch {}
+    </script>
+
+    <!-- Analytics (Production Only, Consent-Gated) -->
+    {import.meta.env.PROD && (
+      <script type="module">
+        import { wireClicks, track, bootAnalytics, initAnalyticsOnConsent, consentGranted } from "../scripts/analytics.ts";
+        if (consentGranted()) { 
+          bootAnalytics(); 
+          wireClicks(document); 
+          track("page_view", { path: location.pathname, lang: document.documentElement.lang }); 
+        }
+        initAnalyticsOnConsent();
+      </script>
+    )}
+    
+    <!-- Sentry (Production Only, Consent-Gated) -->
+    {import.meta.env.PROD && (
+      <script type="module">
+        import { bootSentry } from "../scripts/sentry.ts";
+        window.addEventListener("consent:granted", () => bootSentry());
+        // also boot if consent is already granted
+        try { if (localStorage.getItem("analytics_consent")==="granted") bootSentry(); } catch {}
+      </script>
+    )}
+    {import.meta.env.PROD && (
+      <script type="module">
+        async function ping(url) {
+          try { const r = await fetch(url, { method: "GET", cache: "no-store" }); return r.ok; } catch { return false; }
+        }
+
+        async function run() {
+          const checks = {
+            sitemap: await ping("/sitemap.xml"),
+            robots: await ping("/robots.txt"),
+            og_en: await ping("/social/og-home-en.jpg"),
+            og_ar: await ping("/social/og-home-ar.jpg")
+          };
+          // surface minimally without polluting console
+          window.__smoke = checks;
+        }
+        
+        if (document.readyState !== "loading") run();
+        else document.addEventListener("DOMContentLoaded", run);
+      </script>
+    )}
+
+    <!-- Cookie Consent Banner (Production Only) -->
+    {import.meta.env.PROD && (
+      <div id="cc" class="fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-3xl p-3">
+        <div class="rounded-2xl bg-white shadow-lg ring-1 ring-black/10 p-4 flex items-start gap-3">
+          <div class="text-sm text-slate-700">We use cookies for analytics to improve your experience.</div>
+          <div class="ms-auto flex gap-2">
+            <button id="cc-accept" class="btn btn-primary px-3 py-1 text-sm">Accept</button>
+            <button id="cc-manage" class="btn btn-ghost px-3 py-1 text-sm">Manage</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Cookie Consent Script (Production Only) -->
+    {import.meta.env.PROD && (
+      <script type="module">
+        const key = "analytics_consent";
+        const root = document.getElementById("cc");
+        const have = localStorage.getItem(key);
+        if (have === "granted") root?.remove();
+        
+        document.getElementById("cc-accept")?.addEventListener("click", () => {
+          localStorage.setItem(key, "granted");
+          root?.remove();
+          window.dispatchEvent(new CustomEvent("consent:granted"));
+        });
+        
+        document.getElementById("cc-manage")?.addEventListener("click", () => {
+          localStorage.removeItem(key);
+          location.reload();
+        });
+      </script>
+    )}
+
+    <!-- Pre-launch QA Script (Dev Only) -->
+    {import.meta.env.DEV && (
+      <script>
+        // simple console checks
+        console.table({
+          counters: document.querySelectorAll("[data-count], .counter, .js-count").length,
+          reveals:  document.querySelectorAll("[data-anim]").length,
+          images:   [...document.images].filter(i=>!i.loading||i.loading==="eager").length+" eager",
+        });
+      </script>
+    )}
+  </body>
+</html>

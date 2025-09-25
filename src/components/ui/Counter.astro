@@ -1,0 +1,30 @@
+---
+/**
+ * Counter renders the final value as SSR text (SEO + no zero),
+ * then JS (microFX) animates from 0 → final when available.
+ */
+const {
+  value,                 // "1000000" | "1,000,000" | "12k" | "1.2m"
+  format = "plain",      // "plain" | "kplus"
+  dur = 1.2,
+  className = "",
+  id = ""
+} = Astro.props;
+
+if (value === undefined) throw new Error("Counter.astro: 'value' is required");
+
+function normalize(v) {
+  // keep as-is for SSR display; microFX will parse
+  return String(v);
+}
+---
+<span
+  id={id}
+  class={`counter ${className}`}
+  data-count={String(value)}
+  data-count-dur={String(dur)}
+  data-count-format={format}
+  data-ssr="1"
+>
+  {normalize(value)}
+</span>

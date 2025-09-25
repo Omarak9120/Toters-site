@@ -6,9 +6,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "lint": "eslint .",
+    "audit": "start-server-and-test preview http://localhost:4321 \"lighthouse http://localhost:4321 --quiet --chrome-flags='--headless=new' --only-categories=performance,accessibility,seo,best-practices --output html --output-path reports/lh.html --budgets-path=./lighthouse-budgets.json\""
   },
   "dependencies": {
-    "astro": "^5.13.10"
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.18",
+    "astro": "^5.13.10",
+    "gsap": "^3.13.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@sentry/browser": "^10.15.0",
+    "lighthouse": "^12.8.2",
+    "start-server-and-test": "^2.1.2"
   }
 }

@@ -1,0 +1,38 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- QR Code Placeholder -->
+  <rect width="120" height="120" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  
+  <!-- QR Code Pattern (simplified) -->
+  <rect x="10" y="10" width="20" height="20" fill="black"/>
+  <rect x="40" y="10" width="20" height="20" fill="black"/>
+  <rect x="70" y="10" width="20" height="20" fill="black"/>
+  <rect x="100" y="10" width="10" height="10" fill="black"/>
+  
+  <rect x="10" y="40" width="10" height="10" fill="black"/>
+  <rect x="30" y="40" width="10" height="10" fill="black"/>
+  <rect x="50" y="40" width="10" height="10" fill="black"/>
+  <rect x="70" y="40" width="10" height="10" fill="black"/>
+  <rect x="90" y="40" width="10" height="10" fill="black"/>
+  <rect x="110" y="40" width="10" height="10" fill="black"/>
+  
+  <rect x="10" y="60" width="20" height="20" fill="black"/>
+  <rect x="40" y="60" width="10" height="10" fill="black"/>
+  <rect x="60" y="60" width="10" height="10" fill="black"/>
+  <rect x="80" y="60" width="20" height="20" fill="black"/>
+  <rect x="110" y="60" width="10" height="10" fill="black"/>
+  
+  <rect x="10" y="90" width="10" height="10" fill="black"/>
+  <rect x="30" y="90" width="10" height="10" fill="black"/>
+  <rect x="50" y="90" width="10" height="10" fill="black"/>
+  <rect x="70" y="90" width="10" height="10" fill="black"/>
+  <rect x="90" y="90" width="10" height="10" fill="black"/>
+  <rect x="110" y="90" width="10" height="10" fill="black"/>
+  
+  <!-- Corner squares -->
+  <rect x="10" y="10" width="8" height="8" fill="black"/>
+  <rect x="102" y="10" width="8" height="8" fill="black"/>
+  <rect x="10" y="102" width="8" height="8" fill="black"/>
+  
+  <!-- Text -->
+  <text x="60" y="115" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#6b7280">Scan to Download</text>
+</svg>

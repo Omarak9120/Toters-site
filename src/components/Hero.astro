@@ -1,0 +1,170 @@
+---
+import Counter from './ui/Counter.astro';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  locale?: string;
+}
+
+const { title, subtitle, locale = 'en' } = Astro.props;
+
+const isRTL = locale === 'ar';
+
+// Hero content translations
+const heroContent = {
+  en: {
+    headline: "Your trusted delivery partner",
+    subheadline: "Connect with local restaurants and stores for fast, reliable delivery right to your doorstep.",
+    cta: {
+      primary: "Download App",
+      secondary: "Learn More"
+    },
+    stats: [
+      { value: "1M+", label: "Happy Customers" },
+      { value: "10K+", label: "Partner Stores" },
+      { value: "50+", label: "Cities Covered" },
+      { value: "24/7", label: "Support Available" }
+    ],
+    features: [
+      "Fast delivery in 30 minutes or less",
+      "Wide selection of restaurants and stores",
+      "Real-time tracking",
+      "Secure payment options"
+    ]
+  },
+  ar: {
+    headline: "شريك التوصيل الموثوق",
+    subheadline: "تواصل مع المطاعم والمتاجر المحلية للحصول على توصيل سريع وموثوق إلى باب منزلك.",
+    cta: {
+      primary: "تحميل التطبيق",
+      secondary: "اعرف المزيد"
+    },
+    stats: [
+      { value: "1M+", label: "عميل سعيد" },
+      { value: "10K+", label: "متجر شريك" },
+      { value: "50+", label: "مدينة مغطاة" },
+      { value: "24/7", label: "دعم متاح" }
+    ],
+    features: [
+      "توصيل سريع في 30 دقيقة أو أقل",
+      "اختيار واسع من المطاعم والمتاجر",
+      "تتبع في الوقت الفعلي",
+      "خيارات دفع آمنة"
+    ]
+  }
+};
+
+const content = heroContent[locale as keyof typeof heroContent] || heroContent.en;
+---
+
+<section class="relative bg-gradient-to-br from-primary-50 to-primary-100 overflow-hidden" aria-labelledby="hero-headline">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0 bg-[url('/hero-pattern.svg')] bg-repeat"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Content -->
+      <div class={`${isRTL ? 'lg:order-2' : ''}`}>
+        <div class="max-w-2xl">
+          <!-- Badge -->
+          <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-600 text-white text-sm font-medium mb-6">
+            <svg class="w-4 h-4 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            {locale === 'ar' ? 'خدمة موثوقة' : 'Trusted Service'}
+          </div>
+
+          <!-- Headline -->
+          <h1 id="hero-headline" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            {title || content.headline}
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            {subtitle || content.subheadline}
+          </p>
+
+          <!-- Features List -->
+          <ul class="space-y-3 mb-8">
+            {content.features.map((feature) => (
+              <li class="flex items-center text-gray-700">
+                <svg class="w-5 h-5 text-primary-600 mr-3 rtl:mr-0 rtl:ml-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+            <a
+              href={locale === 'ar' ? '/ar/download' : '/download'}
+              class="inline-flex items-center justify-center px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+              {content.cta.primary}
+            </a>
+            <a
+              href={locale === 'ar' ? '/ar/about' : '/about'}
+              class="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-semibold rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              {content.cta.secondary}
+              <svg class="w-5 h-5 ml-2 rtl:ml-0 rtl:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {content.stats.map((stat) => (
+              <div class="text-center">
+                <Counter 
+                  className="text-2xl sm:text-3xl font-bold text-primary-600 mb-1"
+                  value={stat.value}
+                  format={stat.value.includes('M+') || stat.value.includes('K+') ? 'kplus' : 'plain'}
+                />
+                <div class="text-sm text-gray-600">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image/Video -->
+      <div class={`${isRTL ? 'lg:order-1' : ''}`}>
+        <div class="relative">
+          <!-- Hero Image -->
+          <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <img 
+              src="/src/assets/images/hero/phones-mockup.webp"
+              alt={locale === 'ar' ? 'تطبيق توتيرز على الهاتف' : 'Toters App on Phone'}
+              class="w-full h-auto object-cover"
+            />
+          </div>
+
+          <!-- Floating Elements -->
+          <div class="absolute -top-4 -right-4 w-24 h-24 bg-primary-200 rounded-full opacity-60 animate-pulse"></div>
+          <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-secondary-200 rounded-full opacity-60 animate-pulse delay-1000"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+    <div class="animate-bounce">
+      <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </div>
+  </div>
+</section>

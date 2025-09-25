@@ -1,0 +1,35 @@
+---
+const { 
+  text = "We use cookies for analytics to improve your experience.", 
+  accept = "Accept", 
+  manage = "Manage" 
+} = Astro.props;
+---
+
+<div id="cc" class="fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-3xl p-3">
+  <div class="rounded-2xl bg-white shadow-lg ring-1 ring-black/10 p-4 flex items-start gap-3">
+    <div class="text-sm text-slate-700">{text}</div>
+    <div class="ms-auto flex gap-2">
+      <button id="cc-accept" class="btn btn-primary px-3 py-1 text-sm">{accept}</button>
+      <button id="cc-manage" class="btn btn-ghost px-3 py-1 text-sm">{manage}</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  const key = "analytics_consent";
+  const root = document.getElementById("cc");
+  const have = localStorage.getItem(key);
+  if (have === "granted") root?.remove();
+  
+  document.getElementById("cc-accept")?.addEventListener("click", () => {
+    localStorage.setItem(key, "granted");
+    root?.remove();
+    window.dispatchEvent(new CustomEvent("consent:granted"));
+  });
+  
+  document.getElementById("cc-manage")?.addEventListener("click", () => {
+    localStorage.removeItem(key);
+    location.reload();
+  });
+</script>

@@ -1,0 +1,16 @@
+[
+  {
+    "path": "/*",
+    "resourceSizes": [
+      {"resourceType": "script", "budget": 190},
+      {"resourceType": "document", "budget": 30},
+      {"resourceType": "image", "budget": 600},
+      {"resourceType": "total", "budget": 1200}
+    ],
+    "timings": [
+      {"metric": "interactive", "budget": 3500},
+      {"metric": "first-contentful-paint", "budget": 1200},
+      {"metric": "speed-index", "budget": 1500}
+    ]
+  }
+]

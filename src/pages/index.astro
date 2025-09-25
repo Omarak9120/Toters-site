@@ -1,11 +1,43 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import HeroCinematic from '../components/HeroCinematic.astro';
+import ValueProps from '../components/ValueProps.astro';
+import Stats from '../components/Stats.astro';
+import AppBadges from '../components/AppBadges.astro';
+import FeaturesGrid from '../components/FeaturesGrid.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import en from '../content/en.json';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const locale = 'en';
+const currentPath = '/';
+const { hero, valueProps, features, whyChoose } = en;
+const appStoreUrl = import.meta.env.APP_STORE_URL || "https://apps.apple.com/";
+const playStoreUrl = import.meta.env.PLAY_STORE_URL || "https://play.google.com/store/apps/details";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<Base
+  title={`Toters — ${hero.title}`}
+  description={hero.subtitle}
+  lang="en"
+  dir="ltr"
+  ogImage="/social/og-home-en.jpg"
+  appStoreUrl={appStoreUrl}
+  playStoreUrl={playStoreUrl}
+>
+  <Header locale={locale} currentPath={currentPath} />
+  
+  <main>
+    <HeroCinematic title={hero.title} subtitle={hero.subtitle} ctaAppStore={hero.ctaAppStore} ctaPlay={hero.ctaPlay} locale={locale} />
+    <ValueProps items={valueProps} locale={locale} />
+    <Stats locale={locale} />
+    <AppBadges locale={locale} variant="light" appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
+    <FeaturesGrid section={features} locale={locale} />
+    <WhyChoose section={whyChoose} locale={locale} />
+    <HowItWorks locale={locale} variant="light" />
+  </main>
+
+  <Footer locale={locale} />
+</Base>

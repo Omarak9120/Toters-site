@@ -1,0 +1,116 @@
+---
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  ctaAppStore?: string;
+  ctaPlay?: string;
+  locale?: string;
+}
+
+const { 
+  title = "Get anything. Fast.", 
+  subtitle = "From restaurants to groceries and daily essentials—delivered when you need them.", 
+  ctaAppStore = "App Store", 
+  ctaPlay = "Google Play",
+  locale = 'en'
+} = Astro.props;
+
+const isRTL = locale === 'ar';
+---
+
+<section class="container mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center" data-hero-root>
+  <!-- Left: Copy -->
+  <div class={isRTL ? 'md:order-2' : ''}>
+    <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm bg-emerald-600/10 text-emerald-700 ring-1 ring-emerald-600/20 mb-4">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+      {locale === 'ar' ? 'خدمة موثوقة' : 'Trusted Service'}
+    </div>
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white" data-hero="title">{title}</h1>
+    <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-xl" data-hero="sub">{subtitle}</p>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a 
+        data-hero="cta" 
+        data-cta="primary"
+        class="btn fx-radial inline-flex items-center justify-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
+        href="https://apps.apple.com/" 
+        rel="noopener" 
+        target="_blank"
+      >
+            <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        {ctaAppStore}
+      </a>
+      <a 
+        data-hero="cta" 
+        class="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-900 font-semibold rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
+        href="https://play.google.com/store/apps/details" 
+        rel="noopener" 
+        target="_blank"
+      >
+            <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        {ctaPlay}
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: Cinematic Visual -->
+  <div class={`relative ${isRTL ? 'md:order-1' : ''}`} aria-hidden="true">
+    <!-- blurred blobs -->
+    <div class="absolute -top-6 -left-6 w-36 h-36 rounded-full bg-emerald-400/20 blur-2xl"></div>
+    <div class="absolute -bottom-8 -right-4 w-40 h-40 rounded-full bg-sky-400/20 blur-2xl"></div>
+
+    <div
+      class="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 bg-gradient-to-br from-sky-50 to-emerald-50 dark:from-slate-800 dark:to-slate-900"
+      data-visual
+    >
+      <!-- inline SVG route -->
+      <svg id="route-svg" viewBox="0 0 640 480" class="absolute inset-0 w-full h-full">
+        <!-- background grid/map vibe -->
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e6f6ff"/>
+            <stop offset="100%" stop-color="#f2fff7"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="640" height="480" fill="url(#g1)"></rect>
+
+        <!-- path -->
+        <path id="route-path"
+          d="M 60 420 C 180 360, 220 340, 300 280 S 480 180, 560 80"
+          fill="none" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+        />
+
+        <!-- pins -->
+        <circle cx="60" cy="420" r="8" fill="#10b981"/>
+        <circle cx="560" cy="80" r="8" fill="#0ea5e9"/>
+
+        <!-- courier icon (tiny card) -->
+        <g id="courier" transform="translate(60,420)">
+          <circle r="12" fill="white" stroke="#06b6d4" stroke-width="2"></circle>
+          <text x="-6" y="5" font-size="14">🏍️</text>
+        </g>
+      </svg>
+
+      <!-- floating glass cards -->
+      <div class="absolute top-6 start-6 rounded-xl px-3 py-2 text-sm backdrop-blur-xl bg-white/60 border border-white/40 shadow z-10" data-float>
+        {locale === 'ar' ? 'تم الطلب' : 'Order placed'}
+      </div>
+      <div class="absolute bottom-6 end-6 rounded-xl px-3 py-2 text-sm backdrop-blur-xl bg-white/60 border border-white/40 shadow z-10" data-float>
+        {locale === 'ar' ? 'الوصول خلال 7 دقائق' : 'Arriving in 7 min'}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+  const root = document.querySelector("[data-hero-root]") as HTMLElement | null;
+  if (root) {
+    import("./heroCinematicMotion.ts").then(m => m.initHeroCinematic(root));
+  }
+</script>

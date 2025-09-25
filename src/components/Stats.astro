@@ -1,0 +1,68 @@
+---
+import Counter from "./ui/Counter.astro";
+
+export interface Props {
+  locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
+
+const isRTL = locale === 'ar';
+
+// Stats content translations
+const statsContent = {
+  en: {
+    title: "Trusted by millions",
+    subtitle: "Join the growing community of satisfied customers",
+    stats: [
+      { value: 1000000, label: "Happy Customers", format: "kplus" },
+      { value: 10000, label: "Partner Stores", format: "kplus" },
+      { value: 50, label: "Cities Covered", format: "plain" },
+      { value: 24, label: "Support (hrs)", format: "plain" }
+    ]
+  },
+  ar: {
+    title: "موثوق من قبل الملايين",
+    subtitle: "انضم إلى المجتمع المتنامي من العملاء الراضين",
+    stats: [
+      { value: 1000000, label: "عميل سعيد", format: "kplus" },
+      { value: 10000, label: "متجر شريك", format: "kplus" },
+      { value: 50, label: "مدينة مغطاة", format: "plain" },
+      { value: 24, label: "دعم (ساعات)", format: "plain" }
+    ]
+  }
+};
+
+const content = statsContent[locale as keyof typeof statsContent] || statsContent.en;
+---
+
+<section class="py-20 bg-gray-50 dark:bg-gray-800" aria-labelledby="stats-title">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16" data-anim="reveal">
+      <h2 id="stats-title" class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        {content.title}
+      </h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        {content.subtitle}
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" data-stagger>
+      {content.stats.map((stat, index) => (
+        <div class="group" data-anim="reveal">
+          <Counter 
+            className="text-3xl sm:text-4xl font-extrabold text-primary-600 mb-2 gpu"
+            value={stat.value}
+            format={stat.format}
+            dur="1.2"
+          />
+          <div class="text-sm text-gray-600 dark:text-gray-300">
+            {stat.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

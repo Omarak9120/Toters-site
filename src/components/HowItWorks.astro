@@ -1,0 +1,297 @@
+---
+export interface Props {
+  locale?: string;
+  variant?: 'light' | 'dark';
+}
+
+const { locale = 'en', variant = 'light' } = Astro.props;
+
+const isRTL = locale === 'ar';
+
+// How it works content translations
+const howItWorksContent = {
+  en: {
+    title: "How Toters Works",
+    subtitle: "Get your favorite food delivered in just 3 simple steps",
+    steps: [
+      {
+        number: "01",
+        title: "Browse & Order",
+        description: "Browse through thousands of restaurants and stores. Add items to your cart and place your order.",
+        icon: "browse",
+        details: [
+          "Search by cuisine, location, or restaurant name",
+          "View detailed menus with prices and descriptions",
+          "Customize your order with special instructions",
+          "Apply promo codes and discounts"
+        ]
+      },
+      {
+        number: "02",
+        title: "Track Your Order",
+        description: "Watch your order being prepared and track the delivery in real-time from restaurant to your door.",
+        icon: "track",
+        details: [
+          "Real-time order status updates",
+          "Live GPS tracking of your delivery",
+          "Estimated delivery time",
+          "Direct communication with your courier"
+        ]
+      },
+      {
+        number: "03",
+        title: "Enjoy Your Meal",
+        description: "Receive your order and enjoy your delicious meal. Rate your experience to help others.",
+        icon: "enjoy",
+        details: [
+          "Contactless delivery options",
+          "Secure payment processing",
+          "Order history and favorites",
+          "Rate and review your experience"
+        ]
+      }
+    ],
+    cta: {
+      title: "Ready to get started?",
+      subtitle: "Join millions of satisfied customers",
+      button: "Download App"
+    }
+  },
+  ar: {
+    title: "كيف يعمل توتيرز",
+    subtitle: "احصل على طعامك المفضل في 3 خطوات بسيطة فقط",
+    steps: [
+      {
+        number: "01",
+        title: "تصفح واطلب",
+        description: "تصفح آلاف المطاعم والمتاجر. أضف العناصر إلى عربة التسوق واطلب طلبك.",
+        icon: "browse",
+        details: [
+          "ابحث حسب نوع المطبخ أو الموقع أو اسم المطعم",
+          "عرض قوائم مفصلة مع الأسعار والأوصاف",
+          "خصص طلبك بتعليمات خاصة",
+          "طبق أكواد الخصم والعروض"
+        ]
+      },
+      {
+        number: "02",
+        title: "تتبع طلبك",
+        description: "راقب طلبك وهو يُحضر وتتبع التوصيل في الوقت الفعلي من المطعم إلى باب منزلك.",
+        icon: "track",
+        details: [
+          "تحديثات حالة الطلب في الوقت الفعلي",
+          "تتبع GPS مباشر لتوصيلك",
+          "وقت التوصيل المقدر",
+          "تواصل مباشر مع مندوبك"
+        ]
+      },
+      {
+        number: "03",
+        title: "استمتع بوجبتك",
+        description: "استلم طلبك واستمتع بوجبتك اللذيذة. قيم تجربتك لمساعدة الآخرين.",
+        icon: "enjoy",
+        details: [
+          "خيارات التوصيل بدون تلامس",
+          "معالجة دفع آمنة",
+          "تاريخ الطلبات والمفضلة",
+          "قيم وراجع تجربتك"
+        ]
+      }
+    ],
+    cta: {
+      title: "جاهز للبدء؟",
+      subtitle: "انضم إلى ملايين العملاء الراضين",
+      button: "تحميل التطبيق"
+    }
+  }
+};
+
+const content = howItWorksContent[locale as keyof typeof howItWorksContent] || howItWorksContent.en;
+
+// Theme classes
+const themeClasses = {
+  light: {
+    container: "bg-white",
+    title: "text-gray-900",
+    subtitle: "text-gray-600",
+    stepTitle: "text-gray-900",
+    stepDescription: "text-gray-700",
+    stepDetails: "text-gray-600",
+    ctaContainer: "bg-gray-50",
+    ctaTitle: "text-gray-900",
+    ctaSubtitle: "text-gray-600"
+  },
+  dark: {
+    container: "bg-gray-900",
+    title: "text-white",
+    subtitle: "text-gray-300",
+    stepTitle: "text-white",
+    stepDescription: "text-gray-300",
+    stepDetails: "text-gray-400",
+    ctaContainer: "bg-gray-800",
+    ctaTitle: "text-white",
+    ctaSubtitle: "text-gray-300"
+  }
+};
+
+const theme = themeClasses[variant];
+
+// Icon components as HTML strings (frontmatter doesn't support JSX)
+const getIcon = (iconType: string): string => {
+  const icons: Record<string, string> = {
+    browse:
+      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />\n      </svg>',
+    track:
+      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />\n      </svg>',
+    enjoy:
+      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />\n      </svg>'
+  };
+  return icons[iconType] ?? icons.browse;
+};
+---
+
+<section class={`py-20 ${theme.container} cv-auto`} aria-labelledby="how-it-works-title">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16" data-anim="reveal">
+      <h2 id="how-it-works-title" class={`text-3xl sm:text-4xl font-bold ${theme.title} mb-4`}>
+        {content.title}
+      </h2>
+      <p class={`text-xl ${theme.subtitle} max-w-3xl mx-auto`}>
+        {content.subtitle}
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="space-y-16" data-stagger>
+      {content.steps.map((step, index) => (
+        <div class={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 && !isRTL ? 'lg:grid-flow-col-dense' : ''} ${index % 2 === 1 && isRTL ? 'lg:grid-flow-col-dense' : ''}`} data-anim="reveal">
+          <!-- Content -->
+          <div class={`${index % 2 === 1 && !isRTL ? 'lg:col-start-2' : ''} ${index % 2 === 1 && isRTL ? 'lg:col-start-1' : ''}`}>
+            <div class="max-w-2xl">
+              <!-- Step Number -->
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-600 text-white rounded-full text-xl font-bold mb-6">
+                {step.number}
+              </div>
+
+              <!-- Step Title -->
+              <h3 class={`text-2xl sm:text-3xl font-bold ${theme.stepTitle} mb-4`}>
+                {step.title}
+              </h3>
+
+              <!-- Step Description -->
+              <p class={`text-lg ${theme.stepDescription} mb-6`}>
+                {step.description}
+              </p>
+
+              <!-- Step Details -->
+              <ul class="space-y-3">
+                {step.details.map((detail) => (
+                  <li class={`flex items-start ${theme.stepDetails}`}>
+                    <svg class="w-5 h-5 text-primary-600 mr-3 rtl:mr-0 rtl:ml-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Visual -->
+          <div class={`${index % 2 === 1 && !isRTL ? 'lg:col-start-1' : ''} ${index % 2 === 1 && isRTL ? 'lg:col-start-2' : ''}`}>
+            <div class="relative">
+              <!-- Main Visual -->
+              <div class="bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl p-8 md:p-12 text-center">
+                <!-- Icon -->
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-white text-primary-600 rounded-2xl mb-6 shadow-lg">
+                  <Fragment set:html={getIcon(step.icon)} />
+                </div>
+
+                <!-- Visual Content -->
+                <div class="space-y-4">
+                  {step.icon === 'browse' && (
+                    <>
+                      <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center space-x-3 rtl:space-x-reverse mb-3">
+                          <div class="w-8 h-8 bg-gray-200 rounded"></div>
+                          <div class="flex-1">
+                            <div class="h-3 bg-gray-200 rounded mb-1"></div>
+                            <div class="h-2 bg-gray-200 rounded w-2/3"></div>
+                          </div>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded mb-1"></div>
+                        <div class="h-2 bg-gray-200 rounded w-3/4"></div>
+                      </div>
+                      <p class="text-sm text-gray-600">
+                        {locale === 'ar' ? 'تصفح المطاعم والمتاجر' : 'Browse restaurants & stores'}
+                      </p>
+                    </>
+                  )}
+
+                  {step.icon === 'track' && (
+                    <>
+                      <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                          <div class="w-8 h-8 bg-primary-600 rounded-full"></div>
+                          <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                        </div>
+                        <div class="h-2 bg-primary-200 rounded mb-1"></div>
+                        <div class="h-2 bg-primary-200 rounded w-2/3"></div>
+                      </div>
+                      <p class="text-sm text-gray-600">
+                        {locale === 'ar' ? 'تتبع طلبك مباشرة' : 'Track your order live'}
+                      </p>
+                    </>
+                  )}
+
+                  {step.icon === 'enjoy' && (
+                    <>
+                      <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse mb-3">
+                          <div class="w-6 h-6 bg-yellow-400 rounded"></div>
+                          <div class="w-6 h-6 bg-yellow-400 rounded"></div>
+                          <div class="w-6 h-6 bg-yellow-400 rounded"></div>
+                          <div class="w-6 h-6 bg-yellow-400 rounded"></div>
+                          <div class="w-6 h-6 bg-gray-200 rounded"></div>
+                        </div>
+                        <div class="h-2 bg-gray-200 rounded mb-1"></div>
+                        <div class="h-2 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                      <p class="text-sm text-gray-600">
+                        {locale === 'ar' ? 'قيم تجربتك' : 'Rate your experience'}
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <!-- Floating Elements -->
+              <div class="absolute -top-4 -right-4 w-8 h-8 bg-primary-200 rounded-full animate-pulse"></div>
+              <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-secondary-200 rounded-full animate-pulse delay-1000"></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA Section -->
+    <div class={`mt-20 ${theme.ctaContainer} rounded-2xl p-8 md:p-12 text-center`}>
+      <h3 class={`text-2xl sm:text-3xl font-bold ${theme.ctaTitle} mb-4`}>
+        {content.cta.title}
+      </h3>
+      <p class={`text-lg ${theme.ctaSubtitle} mb-8 max-w-2xl mx-auto`}>
+        {content.cta.subtitle}
+      </p>
+      <a
+        href={locale === 'ar' ? '/ar/download' : '/download'}
+        class="inline-flex items-center justify-center px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+      >
+        <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        {content.cta.button}
+      </a>
+    </div>
+  </div>
+</section>

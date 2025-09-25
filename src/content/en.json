@@ -1,0 +1,33 @@
+{
+  "hero": {
+    "title": "Get anything. Fast.",
+    "subtitle": "From restaurants to groceries and daily essentials—delivered when you need them.",
+    "ctaAppStore": "App Store",
+    "ctaPlay": "Google Play"
+  },
+  "valueProps": [
+    { "title": "Discover more", "desc": "Thousands of restaurants and stores in one app." },
+    { "title": "Order in seconds", "desc": "The fastest path from craving to checkout." },
+    { "title": "Track every step", "desc": "Real-time tracking from cart to doorstep." }
+  ],
+  "features": {
+    "heading": "Everything you need for delivery",
+    "sub": "From ordering to tracking, we've got you covered.",
+    "items": [
+      { "title": "Ordering made easy", "desc": "Browse restaurants and stores in one app." },
+      { "title": "Real-time tracking", "desc": "Follow your order from cart to doorstep." },
+      { "title": "Secure payments", "desc": "Cards, wallets, or cash—your choice." },
+      { "title": "24/7 support", "desc": "We're here anytime you need us." }
+    ]
+  },
+  "whyChoose": {
+    "heading": "Why Choose Toters?",
+    "sub": "We're committed to the best delivery experience for everyone.",
+    "items": [
+      { "title": "Huge selection", "desc": "Thousands of restaurants, groceries, and shops." },
+      { "title": "Fast & reliable", "desc": "Optimized routes and trusted couriers." },
+      { "title": "Clear pricing", "desc": "No surprises—upfront fees and promos." },
+      { "title": "Dedicated support", "desc": "Real people ready to help." }
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+---
+import LanguageSwitch from './LanguageSwitch.astro';
+
+export interface Props {
+  locale?: string;
+  currentPath?: string;
+}
+
+const { locale = 'en', currentPath = '/' } = Astro.props;
+
+const isRTL = locale === 'ar';
+
+// Navigation items
+const navItems = {
+  en: [
+    { label: 'Home', href: '/' },
+    { label: 'For Customers', href: '/customers' },
+    { label: 'For Partners', href: '/partners' },
+    { label: 'For Couriers', href: '/couriers' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' }
+  ],
+  ar: [
+    { label: 'الرئيسية', href: '/ar/' },
+    { label: 'للعملاء', href: '/ar/customers' },
+    { label: 'للشركاء', href: '/ar/partners' },
+    { label: 'للمندوبين', href: '/ar/couriers' },
+    { label: 'من نحن', href: '/ar/about' },
+    { label: 'اتصل بنا', href: '/ar/contact' }
+  ]
+};
+
+const currentNavItems = navItems[locale as keyof typeof navItems] || navItems.en;
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200" role="banner">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href={locale === 'ar' ? '/ar/' : '/'} class="flex items-center space-x-2 rtl:space-x-reverse">
+          <img 
+            src="/logo.jpg" 
+            alt="Toters Logo" 
+            class="h-8 w-auto"
+            width="32"
+            height="32"
+            loading="eager"
+            decoding="sync"
+          />
+          <span class="text-xl font-bold text-primary-600">Toters</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-8 rtl:space-x-reverse">
+          {currentNavItems.map((item) => (
+            <a
+              href={item.href}
+              class={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                currentPath === item.href || 
+                (locale === 'ar' && currentPath === item.href.replace('/ar', '')) ||
+                (locale === 'en' && currentPath === item.href)
+                  ? 'text-primary-600 bg-primary-50'
+                  : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+              }`}
+              aria-current={currentPath === item.href ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Language Switch & CTA -->
+      <div class="flex items-center space-x-4 rtl:space-x-reverse">
+        <!-- Language Switch -->
+        <LanguageSwitch lang={locale} />
+
+        <!-- Download Button -->
+        <a
+          href={locale === 'ar' ? '/ar/download' : '/download'}
+          class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          data-track="click_cta"
+          data-label="header_download"
+        >
+          {locale === 'ar' ? 'تحميل التطبيق' : 'Download App'}
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+          aria-expanded="false"
+          aria-label="Toggle main menu"
+        >
+          <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+        {currentNavItems.map((item) => (
+          <a
+            href={item.href}
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+              currentPath === item.href
+                ? 'text-primary-600 bg-primary-50'
+                : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+            }`}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+        <div class="border-t border-gray-200 pt-3 mt-3">
+          <LanguageSwitch lang={locale} />
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuButton = document.querySelector('[aria-label="Toggle main menu"]');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Language switch dropdown
+    const languageSwitch = document.getElementById('language-switch');
+    const languageDropdown = languageSwitch?.nextElementSibling;
+    
+    if (languageSwitch && languageDropdown) {
+      languageSwitch.addEventListener('click', () => {
+        const isExpanded = languageSwitch.getAttribute('aria-expanded') === 'true';
+        languageSwitch.setAttribute('aria-expanded', (!isExpanded).toString());
+        languageDropdown.classList.toggle('hidden');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (event) => {
+        if (!languageSwitch.contains(event.target as Node) && !languageDropdown.contains(event.target as Node)) {
+          languageSwitch.setAttribute('aria-expanded', 'false');
+          languageDropdown.classList.add('hidden');
+        }
+      });
+    }
+  });
+</script>

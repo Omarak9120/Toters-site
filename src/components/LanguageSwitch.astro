@@ -1,0 +1,14 @@
+---
+const { lang = "en" } = Astro.props;
+const path = Astro.url.pathname;
+const toEN = path.replace(/^\/ar(\/|$)/, "/");
+const toAR = path.startsWith("/ar") ? path : `/ar${path.startsWith("/") ? path : `/${path}`}`;
+---
+
+<nav class="text-sm">
+  {lang === "ar" ? (
+    <a href={toEN} class="underline underline-offset-4" data-track="toggle_language" data-label="to_en">English</a>
+  ) : (
+    <a href={toAR} class="underline underline-offset-4" data-track="toggle_language" data-label="to_ar">العربية</a>
+  )}
+</nav>
