@@ -19,7 +19,7 @@
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), geolocation=(), microphone=()" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io; connect-src 'self' https://plausible.io; style-src 'self' 'unsafe-inline'; font-src 'self' data:;" }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io; connect-src 'self' https://plausible.io https://formspree.io; style-src 'self' 'unsafe-inline'; font-src 'self' data:;" }
       ]
     }
   ]

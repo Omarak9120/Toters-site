@@ -1,0 +1,99 @@
+---
+const { t, lang = "en" } = Astro.props; // pass strings and lang
+const endpoint = `https://formspree.io/f/${import.meta.env.PUBLIC_FORMSPREE_ID || ""}`;
+const rtl = lang.startsWith("ar");
+---
+
+<form class={`max-w-2xl mx-auto ${rtl ? "text-right" : ""}`} data-anim="reveal" id="contact-form" novalidate>
+  <!-- honeypot -->
+  <input type="text" name="company" autocomplete="off" tabindex="-1" class="hidden" aria-hidden="true" />
+
+  <label class="block text-sm font-medium">{t.name}</label>
+  <input name="name" class="mt-1 w-full rounded-xl border p-3" required placeholder="Omar Abdelkader" />
+
+  <label class="block text-sm font-medium mt-4">{t.email}</label>
+  <input name="email" type="email" class="mt-1 w-full rounded-xl border p-3" required placeholder="name@domain.com" />
+
+  <label class="block text-sm font-medium mt-4">{t.message}</label>
+  <textarea name="message" rows="5" class="mt-1 w-full rounded-xl border p-3" required placeholder=""></textarea>
+
+  <button class="btn btn-primary mt-6" type="submit" id="contact-submit" data-track="contact_submit" data-label={lang}>
+    {t.send}
+  </button>
+
+  <p id="contact-status" class="mt-3 text-sm text-emerald-600 hidden">{t.sent}</p>
+  <p id="contact-error" class="mt-3 text-sm text-red-600 hidden">{t.error}</p>
+</form>
+
+<script type="module">
+  const form = document.getElementById("contact-form");
+  const submit = document.getElementById("contact-submit");
+  const ok = document.getElementById("contact-status");
+  const err = document.getElementById("contact-error");
+  const endpoint = "https://formspree.io/f/YOUR_FORM_ID"; // Will be replaced by Astro
+
+  function setVis(el, show){ el.classList.toggle("hidden", !show); }
+  function valEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setVis(ok, false); setVis(err, false);
+
+    const fd = new FormData(form);
+    if (fd.get("company")) { setVis(ok, true); return; } // honeypot trip: pretend ok
+
+    const name = String(fd.get("name")||"").trim();
+    const email = String(fd.get("email")||"").trim();
+    const message = String(fd.get("message")||"").trim();
+
+    if (!name || !email || !message) { setVis(err, true); err.textContent = "This field is required"; return; }
+    if (!valEmail(email)) { setVis(err, true); err.textContent = "Please enter a valid email"; return; }
+
+    submit.setAttribute("disabled","true"); submit.style.opacity = ".7";
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: fd
+      });
+      if (res.ok) {
+        setVis(ok, true);
+        form.reset();
+        // Track success if consent granted
+        if (typeof window !== "undefined" && window.localStorage?.getItem("analytics_consent") === "granted") {
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "contact_submit", { language: "<?=lang?>" });
+          }
+          if (typeof window.plausible === "function") {
+            window.plausible("contact_submit", { props: { language: "<?=lang?>" } });
+          }
+        }
+      } else {
+        setVis(err, true);
+        // Track failure if consent granted
+        if (typeof window !== "undefined" && window.localStorage?.getItem("analytics_consent") === "granted") {
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "contact_submit_fail", { language: "<?=lang?>", error_code: res.status });
+          }
+          if (typeof window.plausible === "function") {
+            window.plausible("contact_submit_fail", { props: { language: "<?=lang?>", error_code: res.status } });
+          }
+        }
+      }
+    } catch (e) {
+      setVis(err, true);
+      // Track network error if consent granted
+      if (typeof window !== "undefined" && window.localStorage?.getItem("analytics_consent") === "granted") {
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "contact_submit_fail", { language: "<?=lang?>", error_type: "network" });
+        }
+        if (typeof window.plausible === "function") {
+          window.plausible("contact_submit_fail", { props: { language: "<?=lang?>", error_type: "network" } });
+        }
+      }
+    } finally {
+      submit.removeAttribute("disabled"); submit.style.opacity = "1";
+    }
+  });
+</script>

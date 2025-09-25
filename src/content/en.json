@@ -56,5 +56,17 @@
       { "title": "Flexibility", "desc": "Hybrid work with Beirut HQ." },
       { "title": "Ownership", "desc": "Take big swings—own your domain." }
     ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question? Send us a message and we'll get back to you.",
+    "name": "Your Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send message",
+    "sent": "Thanks! We'll be in touch.",
+    "error": "Something went wrong. Please try again.",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email"
   }
 }
