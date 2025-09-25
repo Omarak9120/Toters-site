@@ -115,10 +115,17 @@ export function initCounters(scope: Document | HTMLElement = document) {
     const hasGS = !!(gsap && gsap.to);
 
     // The element already shows final SSR text; only override if we're going to animate.
+    const locale = el.getAttribute("data-locale") || undefined;
     const setText = (n: number) => {
-      el.textContent = (fmt === "kplus")
-        ? (n >= 1e6 ? `${Math.round(n/1e6)}M+` : n >= 1e3 ? `${Math.round(n/1e3)}K+` : `${n}`)
-        : n.toLocaleString();
+      if (fmt === "kplus") {
+        const k = Math.round(n >= 1e6 ? n/1e6 : n >= 1e3 ? n/1e3 : n);
+        const suffix = n >= 1e6 ? "M+" : n >= 1e3 ? "K+" : "";
+        el.textContent = suffix
+          ? `${k.toLocaleString(locale as any)}${suffix}`
+          : n.toLocaleString(locale as any);
+      } else {
+        el.textContent = n.toLocaleString(locale as any);
+      }
     };
 
     const animate = () => {

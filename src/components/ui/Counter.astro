@@ -1,22 +1,47 @@
 ---
 /**
- * Counter renders the final value as SSR text (SEO + no zero),
- * then JS (microFX) animates from 0 → final when available.
+ * SSR shows the final value, formatted for locale.
+ * JS animates 0 -> final when available.
  */
 const {
   value,                 // "1000000" | "1,000,000" | "12k" | "1.2m"
   format = "plain",      // "plain" | "kplus"
   dur = 1.2,
   className = "",
-  id = ""
+  id = "",
+  lang = "en"            // NEW: "en" | "ar" etc.
 } = Astro.props;
 
 if (value === undefined) throw new Error("Counter.astro: 'value' is required");
 
-function normalize(v) {
-  // keep as-is for SSR display; microFX will parse
-  return String(v);
+function toLatin(s) {
+  return String(s).replace(/[٠-٩۰-۹]/g, d => "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹".indexOf(d) % 10 + "");
 }
+
+function parseTarget(raw) {
+  if (!raw) return 0;
+  let s = toLatin(String(raw).trim()).toLowerCase().replace(/[\s,]/g, "");
+  const m = s.match(/^([0-9]*\.?[0-9]+)([kmb])?$/i);
+  if (m) {
+    const val = parseFloat(m[1]); 
+    const suf = (m[2] || "");
+    return Math.round(val * (suf==="k"?1e3:suf==="m"?1e6:suf==="b"?1e9:1));
+  }
+  const n = Number(s.replace(/[^0-9.]/g, ""));
+  return Number.isFinite(n) ? Math.round(n) : 0;
+}
+
+function fmt(locale, n, kind) {
+  if (kind === "kplus") {
+    if (n >= 1e6) return new Intl.NumberFormat(locale).format(Math.round(n/1e6)) + "M+";
+    if (n >= 1e3) return new Intl.NumberFormat(locale).format(Math.round(n/1e3)) + "K+";
+  }
+  return new Intl.NumberFormat(locale).format(n);
+}
+
+const end = parseTarget(value);
+const locale = lang.startsWith("ar") ? "ar-LB" : "en-US";
+const ssrText = fmt(locale, end, format);
 ---
 <span
   id={id}
@@ -24,7 +49,8 @@ function normalize(v) {
   data-count={String(value)}
   data-count-dur={String(dur)}
   data-count-format={format}
+  data-locale={locale}           <!-- NEW: runtime uses this -->
   data-ssr="1"
 >
-  {normalize(value)}
+  {ssrText}
 </span>

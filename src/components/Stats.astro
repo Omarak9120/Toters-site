@@ -57,6 +57,7 @@ const content = statsContent[locale as keyof typeof statsContent] || statsConten
             value={stat.value}
             format={stat.format}
             dur="1.2"
+            lang={locale}
           />
           <div class="text-sm text-gray-600 dark:text-gray-300">
             {stat.label}

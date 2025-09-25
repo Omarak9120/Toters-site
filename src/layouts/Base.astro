@@ -55,7 +55,14 @@ const orgJson = {
   "@type": "Organization",
   name: "Toters",
   url: site,
-  logo: new URL("/assets/logo/toters-logo.svg", site).toString()
+  logo: new URL("/assets/logo/toters-logo.svg", site).toString(),
+  contactPoint: [{
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "areaServed": ["LB","IQ","JO","SA","AE"], // adjust to your markets
+    "availableLanguage": ["en","ar"],
+    "url": site + "/contact"
+  }]
 };
 
 const appJson = {

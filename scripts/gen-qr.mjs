@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import QRCode from "qrcode";
 
 const dest = "public/qr-code.svg";
-const url = process.env.APP_STORE_URL || process.env.PLAY_STORE_URL || "https://www.totersapp.com";
+const url = process.env.APP_STORE_URL || process.env.PLAY_STORE_URL || "https://cat-bounce.com/";
 
 try {
   const svg = await QRCode.toString(url, { type: "svg", margin: 0, width: 512, errorCorrectionLevel: "M" });

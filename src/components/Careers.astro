@@ -1,6 +1,6 @@
 ---
 import Counter from "../components/ui/Counter.astro";
-const { data } = Astro.props; // {title, subtitle, benefits[], applyCta, email}
+const { data, locale = "en" } = Astro.props; // {title, subtitle, benefits[], applyCta, email}
 ---
 <section class="container mx-auto px-4 py-16" data-stagger>
   <h1 class="h1 text-center" data-anim="reveal-up">{data.title}</h1>
@@ -21,19 +21,19 @@ const { data } = Astro.props; // {title, subtitle, benefits[], applyCta, email}
 
   <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
     <div>
-      <div class="text-3xl font-extrabold"><Counter value="12k" format="kplus" /></div>
+      <div class="text-3xl font-extrabold"><Counter value="12k" format="kplus" lang={locale} /></div>
       <div class="text-slate-600 mt-1">Applicants</div>
     </div>
     <div>
-      <div class="text-3xl font-extrabold"><Counter value="50" /></div>
+      <div class="text-3xl font-extrabold"><Counter value="50" lang={locale} /></div>
       <div class="text-slate-600 mt-1">Open roles (capacity)</div>
     </div>
     <div>
-      <div class="text-3xl font-extrabold"><Counter value="3" /></div>
+      <div class="text-3xl font-extrabold"><Counter value="3" lang={locale} /></div>
       <div class="text-slate-600 mt-1">Offices</div>
     </div>
     <div>
-      <div class="text-3xl font-extrabold"><Counter value="24" /></div>
+      <div class="text-3xl font-extrabold"><Counter value="24" lang={locale} /></div>
       <div class="text-slate-600 mt-1">Support hrs</div>
     </div>
   </div>
