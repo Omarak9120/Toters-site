@@ -1,0 +1,9 @@
+---
+import Base from "../layouts/Base.astro";
+import PressKit from "../components/PressKit.astro";
+import en from "../content/en.json";
+const data = en.press;
+---
+<Base title={`Toters — ${data.title}`} description={data.subtitle} lang="en" dir="ltr" ogImage="/social/og-home-en.jpg">
+  <PressKit data={data} />
+</Base>

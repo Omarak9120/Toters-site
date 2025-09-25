@@ -1,0 +1,40 @@
+---
+import Counter from "../components/ui/Counter.astro";
+const { data } = Astro.props; // {title, subtitle, benefits[], applyCta, email}
+---
+<section class="container mx-auto px-4 py-16" data-stagger>
+  <h1 class="h1 text-center" data-anim="reveal-up">{data.title}</h1>
+  <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto" data-anim="reveal-up">{data.subtitle}</p>
+
+  <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {data.benefits.map((b) => (
+      <div class="card p-6" data-anim="reveal">
+        <h3 class="font-semibold">{b.title}</h3>
+        <p class="text-slate-600 mt-1">{b.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-12 text-center">
+    <a class="btn btn-primary" href={`mailto:${data.email}`} data-track="click_cta" data-label="careers_email">{data.applyCta}</a>
+  </div>
+
+  <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div>
+      <div class="text-3xl font-extrabold"><Counter value="12k" format="kplus" /></div>
+      <div class="text-slate-600 mt-1">Applicants</div>
+    </div>
+    <div>
+      <div class="text-3xl font-extrabold"><Counter value="50" /></div>
+      <div class="text-slate-600 mt-1">Open roles (capacity)</div>
+    </div>
+    <div>
+      <div class="text-3xl font-extrabold"><Counter value="3" /></div>
+      <div class="text-slate-600 mt-1">Offices</div>
+    </div>
+    <div>
+      <div class="text-3xl font-extrabold"><Counter value="24" /></div>
+      <div class="text-slate-600 mt-1">Support hrs</div>
+    </div>
+  </div>
+</section>

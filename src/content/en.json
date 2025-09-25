@@ -29,5 +29,32 @@
       { "title": "Clear pricing", "desc": "No surprises—upfront fees and promos." },
       { "title": "Dedicated support", "desc": "Real people ready to help." }
     ]
+  },
+  "press": {
+    "title": "Press Kit",
+    "subtitle": "Logos, colors, and assets for articles and mentions.",
+    "downloadLogos": "Download Logos",
+    "brandColors": "Brand Colors",
+    "primary": "#10b981",
+    "accent": "#0ea5e9",
+    "dark": "#064e3b",
+    "assets": [
+      { "label": "Logo (Light SVG)", "href": "/logo-white.svg" },
+      { "label": "QR Code (SVG)", "href": "/qr-code.svg" },
+      { "label": "OG Image (EN)", "href": "/social/og-home-en.jpg" }
+    ],
+    "contact": "For press inquiries, email press@totersapp.com"
+  },
+  "careers": {
+    "title": "Careers at Toters",
+    "subtitle": "Join us in making it easy to get anything you need.",
+    "applyCta": "Apply via Email",
+    "email": "jobs@totersapp.com",
+    "benefits": [
+      { "title": "Impact", "desc": "Ship features used across the region." },
+      { "title": "Growth", "desc": "Mentorship, learning budget, and clear paths." },
+      { "title": "Flexibility", "desc": "Hybrid work with Beirut HQ." },
+      { "title": "Ownership", "desc": "Take big swings—own your domain." }
+    ]
   }
 }

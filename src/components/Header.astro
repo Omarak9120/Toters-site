@@ -18,6 +18,8 @@ const navItems = {
     { label: 'For Partners', href: '/partners' },
     { label: 'For Couriers', href: '/couriers' },
     { label: 'About', href: '/about' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Press Kit', href: '/press' },
     { label: 'Contact', href: '/contact' }
   ],
   ar: [
@@ -26,6 +28,8 @@ const navItems = {
     { label: 'للشركاء', href: '/ar/partners' },
     { label: 'للمندوبين', href: '/ar/couriers' },
     { label: 'من نحن', href: '/ar/about' },
+    { label: 'الوظائف', href: '/ar/careers' },
+    { label: 'مركز الصحافة', href: '/ar/press' },
     { label: 'اتصل بنا', href: '/ar/contact' }
   ]
 };
@@ -66,6 +70,8 @@ const currentNavItems = navItems[locale as keyof typeof navItems] || navItems.en
                   : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
               }`}
               aria-current={currentPath === item.href ? 'page' : undefined}
+              data-track="nav_click"
+              data-label={item.label.toLowerCase().replace(/\s+/g, '_')}
             >
               {item.label}
             </a>
@@ -113,6 +119,8 @@ const currentNavItems = navItems[locale as keyof typeof navItems] || navItems.en
                 : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
             }`}
             aria-current={currentPath === item.href ? 'page' : undefined}
+            data-track="nav_click"
+            data-label={item.label.toLowerCase().replace(/\s+/g, '_')}
           >
             {item.label}
           </a>
