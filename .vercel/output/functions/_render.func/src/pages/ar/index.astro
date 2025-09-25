@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import HeroCinematic from '../../components/HeroCinematic.astro';
+import ValueProps from '../../components/ValueProps.astro';
+import Stats from '../../components/Stats.astro';
+import AppBadges from '../../components/AppBadges.astro';
+import FeaturesGrid from '../../components/FeaturesGrid.astro';
+import WhyChoose from '../../components/WhyChoose.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ar from '../../content/ar.json';
+
+const locale = 'ar';
+const currentPath = '/ar/';
+const { hero, valueProps, features, whyChoose } = ar;
+const appStoreUrl = import.meta.env.APP_STORE_URL || "https://apps.apple.com/";
+const playStoreUrl = import.meta.env.PLAY_STORE_URL || "https://play.google.com/store/apps/details";
+---
+
+<Base
+  title={`توترز — ${hero.title}`}
+  description={hero.subtitle}
+  lang="ar"
+  dir="rtl"
+  ogImage="/social/og-home-ar.jpg"
+  appStoreUrl={appStoreUrl}
+  playStoreUrl={playStoreUrl}
+>
+  <Header locale={locale} currentPath={currentPath} />
+  
+  <main>
+    <HeroCinematic title={hero.title} subtitle={hero.subtitle} ctaAppStore={hero.ctaAppStore} ctaPlay={hero.ctaPlay} locale={locale} />
+    <ValueProps items={valueProps} locale={locale} />
+    <Stats locale={locale} />
+    <AppBadges locale={locale} variant="light" appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
+    <FeaturesGrid section={features} locale={locale} />
+    <WhyChoose section={whyChoose} locale={locale} />
+    <HowItWorks locale={locale} variant="light" />
+  </main>
+
+  <Footer locale={locale} />
+</Base>

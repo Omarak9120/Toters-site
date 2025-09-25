@@ -1,0 +1,13 @@
+---
+import Base from "../../layouts/Base.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import ar from "../../content/ar.json";
+const t = ar.contact;
+---
+<Base title={`توترز — ${t.title}`} description={t.subtitle} lang="ar" dir="rtl" ogImage="/social/og-home-ar.jpg">
+  <section class="container mx-auto px-4 py-16" data-stagger>
+    <h1 class="h1 text-center" data-anim="reveal-up">{t.title}</h1>
+    <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto" data-anim="reveal-up">{t.subtitle}</p>
+    <ContactForm t={t} lang="ar" />
+  </section>
+</Base>

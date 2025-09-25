@@ -1,0 +1,54 @@
+/* empty css                                 */
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BaLT3vhi.mjs';
+import 'kleur/colors';
+import { $ as $$Base } from '../chunks/Base_NMe2ODK5.mjs';
+import { $ as $$Header, a as $$Footer } from '../chunks/Footer_oE9ghj0h.mjs';
+export { renderers } from '../renderers.mjs';
+
+const $$Terms = createComponent(($$result, $$props, $$slots) => {
+  const locale = "en";
+  const currentPath = "/terms";
+  const lastUpdated = "2024-01-15";
+  return renderTemplate`${renderComponent($$result, "Base", $$Base, { "title": "Terms of Service - Toters", "description": "Read our terms of service for using Toters delivery platform.", "lang": "en", "dir": "ltr" }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "Header", $$Header, { "locale": locale, "currentPath": currentPath })} ${maybeRenderHead()}<main class="min-h-screen bg-white"> <div class="max-w-4xl mx-auto px-4 py-16"> <h1 class="text-4xl font-bold text-gray-900 mb-8">Terms of Service</h1> <div class="text-sm text-gray-600 mb-8">
+Last updated: ${lastUpdated} </div> <div class="prose prose-lg max-w-none"> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Acceptance of Terms</h2> <p class="text-gray-700 mb-4">
+By accessing and using Toters, you accept and agree to be bound by the terms 
+            and provision of this agreement.
+</p> <!-- TODO: Legal team to review acceptance mechanism and enforceability --> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Use License</h2> <p class="text-gray-700 mb-4">
+Permission is granted to temporarily use Toters for personal, non-commercial 
+            transitory viewing only.
+</p> <p class="text-gray-700 mb-4">
+This is the grant of a license, not a transfer of title, and under this license you may not:
+</p> <ul class="list-disc list-inside text-gray-700 mb-4"> <li>Modify or copy the materials</li> <li>Use the materials for any commercial purpose or for any public display</li> <li>Attempt to reverse engineer any software contained on the website</li> <li>Remove any copyright or other proprietary notations from the materials</li> </ul> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Service Availability</h2> <p class="text-gray-700 mb-4">
+We strive to provide reliable service, but we cannot guarantee uninterrupted access. 
+            Service may be temporarily unavailable due to maintenance, updates, or technical issues.
+</p> <!-- TODO: Legal team to specify SLA and service level commitments --> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">User Responsibilities</h2> <p class="text-gray-700 mb-4">
+You are responsible for:
+</p> <ul class="list-disc list-inside text-gray-700 mb-4"> <li>Providing accurate and complete information</li> <li>Maintaining the security of your account</li> <li>Complying with all applicable laws and regulations</li> <li>Respecting the rights of other users and third parties</li> </ul> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Payment Terms</h2> <p class="text-gray-700 mb-4">
+Payment for services is due at the time of order placement. We accept various 
+            payment methods as displayed during checkout.
+</p> <!-- TODO: Legal team to specify refund policy, payment processing, and dispute resolution --> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Limitation of Liability</h2> <p class="text-gray-700 mb-4">
+In no event shall Toters or its suppliers be liable for any damages arising out 
+            of the use or inability to use the materials on Toters.
+</p> <!-- TODO: Legal team to specify liability caps and exclusions --> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Governing Law</h2> <p class="text-gray-700 mb-4">
+These terms and conditions are governed by and construed in accordance with the laws 
+            of [Jurisdiction] and you irrevocably submit to the exclusive jurisdiction of the courts 
+            in that state or location.
+</p> <!-- TODO: Legal team to specify governing law and jurisdiction --> </section> <section class="mb-8"> <h2 class="text-2xl font-semibold text-gray-900 mb-4">Contact Information</h2> <p class="text-gray-700 mb-4">
+If you have any questions about these Terms of Service, please contact us at:
+</p> <p class="text-gray-700">
+Email: legal@totersapp.com<br> <!-- TODO: Add physical address and other contact details --> </p> </section> </div> </div> </main> ${renderComponent($$result2, "Footer", $$Footer, { "locale": locale })} ` })}`;
+}, "C:/Users/Omar Abdelkader/Desktop/omar abdelkader/my_work/Toters_website/toters-site/src/pages/terms.astro", void 0);
+
+const $$file = "C:/Users/Omar Abdelkader/Desktop/omar abdelkader/my_work/Toters_website/toters-site/src/pages/terms.astro";
+const $$url = "/terms";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Terms,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

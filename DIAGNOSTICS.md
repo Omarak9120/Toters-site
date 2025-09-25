@@ -17,11 +17,10 @@ Run this in browser console to verify no counter elements contain visible "data-
 
 ```javascript
 // Check for data-ssr leakage in counter text content
-[...document.querySelectorAll(".counter")]
-  .map(el => ({ 
-    html: el.outerHTML, 
-    hasLeak: /data-ssr=/.test(el.textContent || "") 
-  }))
+[...document.querySelectorAll(".counter")].map((el) => ({
+  html: el.outerHTML,
+  hasLeak: /data-ssr=/.test(el.textContent || ""),
+}));
 ```
 
 **Expected Result:** All `hasLeak: false`
@@ -30,7 +29,7 @@ Run this in browser console to verify no counter elements contain visible "data-
 
 ```javascript
 // Check first counter's HTML structure
-document.querySelector(".counter")?.outerHTML
+document.querySelector(".counter")?.outerHTML;
 ```
 
 **Expected Result:** Clean `<span ...>1M+</span>` (or Arabic digits on /ar/), no stray text
@@ -39,7 +38,7 @@ document.querySelector(".counter")?.outerHTML
 
 ```javascript
 // Ensure no ::before content on counters
-getComputedStyle(document.querySelector(".counter"), '::before').content
+getComputedStyle(document.querySelector(".counter"), "::before").content;
 ```
 
 **Expected Result:** `"normal"` or `"none"` (not a string like `"attr(...)"`)
@@ -48,8 +47,7 @@ getComputedStyle(document.querySelector(".counter"), '::before').content
 
 ```javascript
 // Check all counter text content
-[...document.querySelectorAll(".counter")]
-  .map(el => el.textContent?.trim())
+[...document.querySelectorAll(".counter")].map((el) => el.textContent?.trim());
 ```
 
 **Expected Result:** Array of clean numbers (e.g., `["1M+", "10K+", "50", "24"]`)
@@ -68,6 +66,7 @@ npm run test:e2e tests/counters.spec.ts
 ```
 
 **Test Coverage:**
+
 - ✅ No data-ssr leakage on English home page
 - ✅ Counters contain numeric text
 - ✅ Arabic counters show Arabic-Indic digits
@@ -78,18 +77,21 @@ npm run test:e2e tests/counters.spec.ts
 ## 🎯 **Manual Verification Checklist**
 
 ### **English Pages (`/`):**
+
 - [ ] Counters show Latin digits (1,000,000)
 - [ ] No visible "data-ssr=" text
 - [ ] Counters animate on scroll
 - [ ] Careers page has clean 4-column grid
 
 ### **Arabic Pages (`/ar/`):**
+
 - [ ] Counters show Arabic-Indic digits (١,٠٠٠,٠٠٠)
 - [ ] No visible "data-ssr=" text
 - [ ] Counters animate on scroll
 - [ ] Arabic careers page has clean layout
 
 ### **Careers Page (`/careers` & `/ar/careers`):**
+
 - [ ] Benefits section renders as 2×2 grid (mobile) / 4×1 grid (desktop)
 - [ ] Stats section renders as 2×2 grid (mobile) / 4×1 grid (desktop)
 - [ ] All counters show proper numbers
@@ -102,11 +104,13 @@ npm run test:e2e tests/counters.spec.ts
 ### **If Data-SSR Still Visible:**
 
 1. **Check for CSS leaks:**
+
    ```bash
    grep -r "content.*attr" src/
    ```
 
 2. **Check for HTML comments:**
+
    ```bash
    grep -r "<!--" src/components/ui/Counter.astro
    ```
@@ -119,11 +123,13 @@ npm run test:e2e tests/counters.spec.ts
 ### **If Counters Don't Animate:**
 
 1. **Check GSAP loading:**
+
    ```javascript
    console.log(!!window.gsap);
    ```
 
 2. **Check microFX initialization:**
+
    ```javascript
    console.log(window.__fx?.probe?.());
    ```
