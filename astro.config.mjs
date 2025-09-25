@@ -9,6 +9,7 @@ export default defineConfig({
   site: "https://www.totersapp.com", // <-- set final domain
   output: 'server',
   adapter: vercel(),
+  trailingSlash: 'ignore', // accepts /careers and /careers/
   integrations: [tailwind(), sitemap()],
   i18n: {
     defaultLocale: 'en',

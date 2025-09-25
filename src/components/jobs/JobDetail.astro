@@ -1,0 +1,99 @@
+---
+export interface Props {
+  job: {
+    slug: string;
+    title: string;
+    location: string;
+    type: string;
+    team: string;
+    posted: string;
+    validThrough: string;
+    description: string;
+    responsibilities: string[];
+    requirements: string[];
+    applyEmail: string;
+  };
+  lang?: string;
+}
+
+const { job, lang = "en" } = Astro.props;
+const rtl = lang.startsWith("ar");
+const site = Astro.site?.toString().replace(/\/$/, "") || "";
+const canonical = `${site}${rtl ? "/ar" : ""}/careers/${job.slug}`;
+
+const jobJson = {
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": job.title,
+  "description": job.description,
+  "datePosted": job.posted,
+  "validThrough": job.validThrough,
+  "employmentType": job.type,
+  "hiringOrganization": { 
+    "@type": "Organization",
+    "name": "Toters",
+    "sameAs": site 
+  },
+  "jobLocation": { 
+    "@type": "Place",
+    "address": { 
+      "@type": "PostalAddress",
+      "addressLocality": "Beirut",
+      "addressCountry": "LB" 
+    }
+  },
+  "applicantLocationRequirements": { 
+    "@type": "Country",
+    "name": "LB" 
+  },
+  "directApply": true
+};
+---
+
+<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger>
+  <a class="underline text-slate-600" href={`${rtl ? "/ar" : ""}/careers`}>&larr; {rtl ? "الرجوع" : "Back"}</a>
+  <h1 class="h1 mt-3" data-anim="reveal-up">{job.title}</h1>
+  <p class="text-slate-600 mt-2">{job.location} · {job.type} · {job.team}</p>
+
+  <div class="mt-6 grid md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 space-y-6">
+      <div class="card p-6" data-anim="reveal">
+        <h2 class="font-semibold">{rtl ? "الوصف" : "Description"}</h2>
+        <p class="mt-2 text-slate-700">{job.description}</p>
+      </div>
+      
+      {job.responsibilities && job.responsibilities.length > 0 && (
+        <div class="card p-6" data-anim="reveal">
+          <h2 class="font-semibold">{rtl ? "المسؤوليات" : "Responsibilities"}</h2>
+          <ul class="mt-2 list-disc ps-6 text-slate-700">
+            {job.responsibilities.map((r) => <li>{r}</li>)}
+          </ul>
+        </div>
+      )}
+      
+      {job.requirements && job.requirements.length > 0 && (
+        <div class="card p-6" data-anim="reveal">
+          <h2 class="font-semibold">{rtl ? "المتطلبات" : "Requirements"}</h2>
+          <ul class="mt-2 list-disc ps-6 text-slate-700">
+            {job.requirements.map((r) => <li>{r}</li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+
+    <aside class="card p-6 h-fit" data-anim="reveal">
+      <h3 class="font-semibold">{rtl ? "التقديم" : "Apply"}</h3>
+      <p class="text-slate-600 mt-1">{rtl ? "ابعث سيرتك الذاتية على" : "Send your resume to"}:</p>
+      <a 
+        class="btn btn-primary mt-3 w-full text-center" 
+        href={`mailto:${job.applyEmail}?subject=${encodeURIComponent(job.title)}`} 
+        data-track="job_apply" 
+        data-label={job.slug}
+      >
+        {rtl ? "التقديم عبر البريد" : "Apply via Email"}
+      </a>
+    </aside>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jobJson)}></script>
+</section>

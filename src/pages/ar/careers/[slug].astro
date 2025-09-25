@@ -1,0 +1,22 @@
+---
+import Base from "../../../layouts/Base.astro";
+import JobDetail from "../../../components/jobs/JobDetail.astro";
+import arJobs from "../../../data/jobs/ar.json";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return arJobs.map((job) => ({
+    params: { slug: job.slug },
+    props: { job },
+  }));
+}
+
+const { job } = Astro.props;
+const title = job.title;
+const desc = `${job.team} · ${job.location}`;
+---
+
+<Base title={`توترز — ${title}`} description={desc} lang="ar" dir="rtl">
+  <JobDetail job={job} lang="ar" />
+</Base>

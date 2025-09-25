@@ -1,9 +1,0 @@
----
-import Base from "../layouts/Base.astro";
-import Careers from "../components/Careers.astro";
-import en from "../content/en.json";
-const data = en.careers;
----
-<Base title={`Toters — ${data.title}`} description={data.subtitle} lang="en" dir="ltr" ogImage="/social/og-home-en.jpg">
-  <Careers data={data} />
-</Base>

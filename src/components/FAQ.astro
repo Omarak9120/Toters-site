@@ -1,0 +1,32 @@
+---
+const { data, lang = "en" } = Astro.props; // { title, subtitle, items[{q,a}] }
+const rtl = lang.startsWith("ar");
+const pageUrl = Astro.url?.pathname || "/";
+const faqJson = {
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity": (data.items || []).map((it) => ({
+    "@type":"Question",
+    "name": it.q,
+    "acceptedAnswer": { "@type":"Answer", "text": it.a }
+  }))
+};
+---
+<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger>
+  <h1 class="h1 text-center" data-anim="reveal-up">{data.title}</h1>
+  <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto" data-anim="reveal-up">{data.subtitle}</p>
+
+  <div class="mt-8 space-y-3">
+    {(data.items || []).map((it, i) => (
+      <details class="group rounded-2xl border bg-white/80 p-4 open:shadow-sm" data-anim="reveal">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3">
+          <span class="font-semibold">{it.q}</span>
+          <span class="ms-auto shrink-0 transition-transform group-open:rotate-45">＋</span>
+        </summary>
+        <div class="mt-2 text-slate-700">{it.a}</div>
+      </details>
+    ))}
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJson)} />
+</section>

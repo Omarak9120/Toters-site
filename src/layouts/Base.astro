@@ -32,6 +32,11 @@ const isAR = lang.startsWith("ar");
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
 const ogDynamic = `${siteUrl}/api/og?title=${encodeURIComponent(title)}&subtitle=${encodeURIComponent(description || "")}&lang=${lang}`;
 
+// Native app banners (env-controlled)
+const appArg = `${siteUrl}/download`;
+const APP_ID = import.meta.env.PUBLIC_APP_STORE_ID || (import.meta.env.DEV ? "1234567890" : "");
+const PLAY_PKG = import.meta.env.PUBLIC_PLAY_PACKAGE || (import.meta.env.DEV ? "com.example.app" : "");
+
 function ensureLeadingSlash(p) { return p.startsWith("/") ? p : `/${p}`; }
 
 // EN canonical is path without `/ar` prefix; AR canonical is `/ar` + path (deduped)
@@ -78,6 +83,32 @@ const appJson = {
   installUrl: [appStoreUrl, playStoreUrl],
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
 };
+
+// MobileApplication JSON-LD per platform
+const iosUrl = import.meta.env.APP_STORE_URL || "";
+const androidUrl = import.meta.env.PLAY_STORE_URL || "";
+const appsJson = [
+  iosUrl && {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Toters",
+    "operatingSystem": "iOS",
+    "applicationCategory": "LifestyleApplication",
+    "installUrl": iosUrl,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "100000" }
+  },
+  androidUrl && {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Toters",
+    "operatingSystem": "Android",
+    "applicationCategory": "LifestyleApplication",
+    "installUrl": androidUrl,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "100000" }
+  }
+].filter(Boolean);
 ---
 
 <!doctype html>
@@ -106,6 +137,13 @@ const appJson = {
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    {APP_ID && (
+      <meta name="apple-itunes-app" content={`app-id=${APP_ID}, app-argument=${appArg}`} />
+    )}
+    {PLAY_PKG && (
+      <meta name="google-play-app" content={`app-id=${PLAY_PKG}`} />
+    )}
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Toters" />
@@ -123,12 +161,11 @@ const appJson = {
     <meta name="twitter:image" content={ogDynamic} />
 
     <!-- JSON-LD -->
-    <script type="application/ld+json">
-      {JSON.stringify(orgJson)}
-    </script>
-    <script type="application/ld+json">
-      {JSON.stringify(appJson)}
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(orgJson)} />
+    <script type="application/ld+json" set:html={JSON.stringify(appJson)} />
+    {appsJson.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify(appsJson.length===1 ? appsJson[0] : appsJson)} />
+    )}
 
     <!-- Analytics (Production Only) -->
     {PROD && import.meta.env.GA_ID && (
@@ -271,6 +308,37 @@ const appJson = {
         });
       </script>
     )}
+
+    {import.meta.env.DEV && (
+      <script>
+        window.__appMeta = {
+          apple: document.querySelector('meta[name="apple-itunes-app"]')?.content || null,
+          play: document.querySelector('meta[name="google-play-app"]')?.content || null
+        };
+      </script>
+    )}
+
+    <!-- Snapshot mode (visual regression) -->
+    <script type="module">
+      (function () {
+        try {
+          const qp = new URLSearchParams(location.search);
+          if (qp.get("snap") !== "1") return;
+
+          document.documentElement.dataset.snap = "1";
+
+          const css = `
+            *,:before,:after { animation: none !important; transition: none !important; }
+            html { scroll-behavior: auto !important; }
+            [data-anim],[data-stagger] { opacity: 1 !important; transform: none !important; }
+          `;
+          const s = document.createElement("style"); s.textContent = css; document.head.appendChild(s);
+
+          // mark snapshot mode
+          window.__SNAP__ = true;
+        } catch {}
+      })();
+    </script>
 
     <!-- QA overlay toggle -->
     <script type="module">

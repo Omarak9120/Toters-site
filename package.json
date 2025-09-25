@@ -6,12 +6,17 @@
     "dev": "astro dev",
     "prebuild": "node scripts/gen-qr.mjs",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "astro preview --port 4321 --host",
+    "serve": "astro dev --port 4321 --host",
     "lint": "eslint .",
     "check:links": "astro build && astro preview & npx wait-on http://localhost:4321 && npx linkinator http://localhost:4321 --silent --recurse --timeout 30000 --skip '.*(localhost:4321/\\?qa=1).*'",
     "audit": "start-server-and-test preview http://localhost:4321 \"lighthouse http://localhost:4321 --quiet --chrome-flags='--headless=new' --only-categories=performance,accessibility,seo,best-practices --output html --output-path reports/lh.html --budgets-path=./lighthouse-budgets.json\"",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:faq": "playwright test tests/faq.spec.ts",
+    "test:jobs": "playwright test tests/jobs.spec.ts",
+    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:visual:update": "playwright test tests/visual.spec.ts --update-snapshots"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -29,7 +34,6 @@
     "lighthouse": "^12.8.2",
     "linkinator": "^6.1.4",
     "qrcode": "^1.5.4",
-    "start-server-and-test": "^2.1.2",
     "wait-on": "^9.0.1"
   }
 }

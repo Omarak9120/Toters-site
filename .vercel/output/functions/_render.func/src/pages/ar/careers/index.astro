@@ -1,0 +1,12 @@
+---
+import Base from "../../../layouts/Base.astro";
+import JobsList from "../../../components/jobs/JobsList.astro";
+import arJobs from "../../../data/jobs/ar.json";
+
+const title = "الوظائف في توترز";
+const desc = "انضم إلينا لنسهّل الحصول على كل ما تحتاجه.";
+---
+
+<Base title={`توترز — ${title}`} description={desc} lang="ar" dir="rtl">
+  <JobsList jobs={arJobs} lang="ar" />
+</Base>

@@ -1,0 +1,11 @@
+---
+import Base from "../../layouts/Base.astro";
+import FAQ from "../../components/FAQ.astro";
+import ar from "../../content/ar.json";
+const data = ar.faq;
+const title = data.title;
+const description = data.subtitle;
+---
+<Base title={`توترز — ${title}`} description={description} lang="ar" dir="rtl">
+  <FAQ data={data} lang="ar" />
+</Base>

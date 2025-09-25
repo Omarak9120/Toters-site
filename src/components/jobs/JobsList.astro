@@ -1,0 +1,43 @@
+---
+export interface Props {
+  jobs?: Array<{
+    slug: string;
+    title: string;
+    location: string;
+    type: string;
+    team: string;
+    posted: string;
+    validThrough: string;
+    description: string;
+    responsibilities: string[];
+    requirements: string[];
+    applyEmail: string;
+  }>;
+  lang?: string;
+}
+
+const { jobs = [], lang = "en" } = Astro.props;
+const rtl = lang.startsWith("ar");
+---
+
+<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger>
+  <h2 class="h1" data-anim="reveal-up">{rtl ? "الوظائف المتاحة" : "Open Roles"}</h2>
+  <div class="mt-6 grid gap-4">
+    {jobs.length === 0 && <p class="text-slate-600">{rtl ? "لا توجد وظائف حالياً." : "No openings right now."}</p>}
+    {jobs.map((j) => (
+      <a 
+        class="card p-5 hover:shadow-lg transition" 
+        href={`${rtl ? "/ar" : ""}/careers/${j.slug}`} 
+        data-anim="reveal" 
+        data-track="job_open" 
+        data-label={j.slug}
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          <h3 class="font-semibold text-lg">{j.title}</h3>
+          <span class="ms-auto text-sm rounded-full px-3 py-1 bg-slate-100">{j.team}</span>
+        </div>
+        <p class="mt-1 text-slate-600">{j.location} · {j.type}</p>
+      </a>
+    ))}
+  </div>
+</section>

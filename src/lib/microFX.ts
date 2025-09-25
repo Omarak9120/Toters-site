@@ -173,6 +173,19 @@ export function initCounters(scope: Document | HTMLElement = document) {
 
 let __fxBooted = false;
 export function initFX(scope: Document | HTMLElement = document) {
+  if (typeof document !== "undefined" && document.documentElement.dataset.snap === "1") {
+    // In snapshot mode, keep SSR final values and disable FX
+    scope.querySelectorAll<HTMLElement>(".counter,[data-count],.js-count").forEach((el) => {
+      const ssr = (el.textContent || "").trim();
+      if (!ssr || ssr === "0") {
+        const raw = el.getAttribute("data-count") || "0";
+        const locale = el.getAttribute("data-locale") || undefined;
+        const n = parseCountAttr(raw);
+        el.textContent = n.toLocaleString(locale as any);
+      }
+    });
+    return;
+  }
   if (__fxBooted) return; __fxBooted = true;
   initScrollReveals(scope); 
   initCtaFX(scope); 

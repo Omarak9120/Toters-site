@@ -68,5 +68,16 @@
     "error": "Something went wrong. Please try again.",
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email"
+  },
+  "faq": {
+    "title": "Help & FAQ",
+    "subtitle": "Quick answers to common questions.",
+    "items": [
+      { "q": "Where can I download Toters?", "a": "Use the Download App button or visit /download on your phone. It detects your device and sends you to the correct store." },
+      { "q": "Which cities do you operate in?", "a": "We're expanding. Check the app for the latest coverage." },
+      { "q": "How do I become a courier?", "a": "Visit the For Couriers page and apply. We'll guide you through onboarding." },
+      { "q": "What payment methods are supported?", "a": "Cards, wallets, and cash on delivery—availability varies by city." },
+      { "q": "How do I contact support?", "a": "From the app: Profile → Help. Or use the contact form on this site." }
+    ]
   }
 }
