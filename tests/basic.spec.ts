@@ -3,6 +3,10 @@ import { test, expect } from "@playwright/test";
 test("home EN loads, counters SSR are non-zero, lang switch works", async ({ page }) => {
   await page.goto("http://localhost:4321/");
   
+  // Check build meta tag exists
+  const buildMeta = await page.locator('meta[name="build"]').getAttribute('content');
+  expect(buildMeta).toBeTruthy();
+  
   // SSR text should not be "0"
   const texts = await page.$$eval("[data-count], .counter, .js-count", els => els.map(e => e.textContent?.trim() || ""));
   expect(texts.some(t => t && t !== "0")).toBeTruthy();

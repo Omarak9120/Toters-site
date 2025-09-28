@@ -120,6 +120,7 @@ const appsJson = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="build" content={import.meta.env.VERCEL_GIT_COMMIT_SHA || 'local'} />
 
     <!-- Canonical & hreflang -->
     <link rel="canonical" href={canonical} />

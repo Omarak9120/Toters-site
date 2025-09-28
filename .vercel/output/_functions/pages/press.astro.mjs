@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { e as createComponent, k as renderComponent, r as renderTemplate } from '../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_jNEBnjtC.mjs';
+import { $ as $$Base } from '../chunks/Base_C5LJedQs.mjs';
 import { $ as $$PressKit } from '../chunks/PressKit_HhQD5vuM.mjs';
 import { e as en } from '../chunks/en_eYmrkcqP.mjs';
 export { renderers } from '../renderers.mjs';

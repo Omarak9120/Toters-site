@@ -24,19 +24,11 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/about/?$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/api/og/?$",
 			"dest": "_render"
 		},
 		{
 			"src": "^/ar/contact/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/ar/faq/?$",
 			"dest": "_render"
 		},
 		{
@@ -52,19 +44,7 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/ar/?$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/contact/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/couriers/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/customers/?$",
 			"dest": "_render"
 		},
 		{
@@ -73,14 +53,6 @@
 		},
 		{
 			"src": "^/download/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/faq/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/partners/?$",
 			"dest": "_render"
 		},
 		{
@@ -93,10 +65,6 @@
 		},
 		{
 			"src": "^/terms/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/$",
 			"dest": "_render"
 		},
 		{
