@@ -8,7 +8,7 @@ const { data, locale = "en" } = Astro.props;
   <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto" data-anim="reveal-up">{data.subtitle}</p>
 
   <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    {data.benefits?.map((b) => (
+    {data.benefits?.map((b: { title: string; desc: string }) => (
       <div class="card p-6" data-anim="reveal">
         <h3 class="font-semibold">{b.title}</h3>
         <p class="text-slate-600 mt-1">{b.desc}</p>

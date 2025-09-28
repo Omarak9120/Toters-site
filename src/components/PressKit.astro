@@ -9,7 +9,7 @@ const { data } = Astro.props; // {title, subtitle, downloadLogos, brandColors, p
     <div class="card p-6" data-anim="reveal">
       <h2 class="font-semibold">{data.downloadLogos}</h2>
       <ul class="mt-3 space-y-2">
-        {data.assets.map((a) => (
+        {data.assets.map((a: { name: string; href: string; label: string }) => (
           <li>
             <a class="underline" href={a.href} download data-track="download_asset" data-label={a.label}>{a.label}</a>
           </li>

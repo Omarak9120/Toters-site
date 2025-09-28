@@ -1,8 +1,8 @@
 /* empty css                                 */
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BaLT3vhi.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_CSXNzCkS.mjs';
-import { $ as $$Header, a as $$Footer } from '../chunks/Footer_5P-GamdP.mjs';
+import { $ as $$Base } from '../chunks/Base_B2Bgpkf5.mjs';
+import { $ as $$Header, a as $$Footer } from '../chunks/Footer_CA1h9Lmv.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Customers = createComponent(($$result, $$props, $$slots) => {

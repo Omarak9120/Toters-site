@@ -5,7 +5,7 @@ export interface Props {
 
 const { locale = 'en' } = Astro.props;
 
-const isRTL = locale === 'ar';
+const _isRTL = locale === 'ar';
 
 // Footer content translations
 const footerContent = {
@@ -16,7 +16,7 @@ const footerContent = {
         title: "Company",
         links: [
           { label: "About Us", href: "/about" },
-          { label: "Careers", href: "/careers" },
+          { label: "Careers", href: "/careers/" },
           { label: "Press", href: "/press" },
           { label: "Blog", href: "/blog" }
         ]
@@ -83,7 +83,7 @@ const footerContent = {
         title: "الشركة",
         links: [
           { label: "من نحن", href: "/ar/about" },
-          { label: "الوظائف", href: "/ar/careers" },
+          { label: "الوظائف", href: "/ar/careers/" },
           { label: "الأخبار", href: "/ar/press" },
           { label: "المدونة", href: "/ar/blog" }
         ]

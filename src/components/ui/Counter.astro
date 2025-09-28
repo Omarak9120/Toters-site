@@ -12,24 +12,22 @@ const {
   lang = "en"
 } = Astro.props;
 
-function toLatin(s) {
-  return String(s).replace(/[٠-٩۰-۹]/g, d => "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹".indexOf(d) % 10 + "");
+function toLatin(s: string): string { 
+  return s.replace(/[٠-٩]/g, (d: string) => String("٠١٢٣٤٥٦٧٨٩".indexOf(d))); 
 }
-function parseTarget(raw) {
-  if (!raw) return 0;
-  let s = toLatin(String(raw).trim()).toLowerCase().replace(/[\s,]/g, "");
-  const m = s.match(/^([0-9]*\.?[0-9]+)([kmb])?$/i);
-  if (m) {
-    const val = parseFloat(m[1]); const suf = (m[2] || "");
-    return Math.round(val * (suf==="k"?1e3:suf==="m"?1e6:suf==="b"?1e9:1));
-  }
-  const n = Number(s.replace(/[^0-9.]/g, ""));
-  return Number.isFinite(n) ? Math.round(n) : 0;
+function parseTarget(raw: string): number {
+  const t = String(raw || "").trim().toLowerCase();
+  const n = Number(t.replace(/[^\d.]/g, ""));
+  if (t.endsWith("k")) return Math.round(n * 1_000);
+  if (t.endsWith("m")) return Math.round(n * 1_000_000);
+  if (t.endsWith("b")) return Math.round(n * 1_000_000_000);
+  return Math.round(n);
 }
-function fmt(locale, n, kind) {
+function fmt(locale: string, n: number, kind: "plain" | "kplus"): string {
   if (kind === "kplus") {
-    if (n >= 1e6) return new Intl.NumberFormat(locale).format(Math.round(n/1e6)) + "M+";
-    if (n >= 1e3) return new Intl.NumberFormat(locale).format(Math.round(n/1e3)) + "K+";
+    if (n >= 1_000_000_000) return `${Math.round(n / 1_000_000_000)}B+`;
+    if (n >= 1_000_000)     return `${Math.round(n / 1_000_000)}M+`;
+    if (n >= 1_000)         return `${Math.round(n / 1_000)}K+`;
   }
   return new Intl.NumberFormat(locale).format(n);
 }

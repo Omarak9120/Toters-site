@@ -20,7 +20,7 @@ const { jobs = [], lang = "en" } = Astro.props;
 const rtl = lang.startsWith("ar");
 ---
 
-<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger>
+<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger data-testid="jobs-list">
   <h2 class="h1" data-anim="reveal-up">{rtl ? "الوظائف المتاحة" : "Open Roles"}</h2>
   <div class="mt-6 grid gap-4">
     {jobs.length === 0 && <p class="text-slate-600">{rtl ? "لا توجد وظائف حالياً." : "No openings right now."}</p>}
@@ -31,6 +31,8 @@ const rtl = lang.startsWith("ar");
         data-anim="reveal" 
         data-track="job_open" 
         data-label={j.slug}
+        data-testid="job-card"
+        data-slug={j.slug}
       >
         <div class="flex flex-wrap items-center gap-3">
           <h3 class="font-semibold text-lg">{j.title}</h3>

@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { c as createExports, s as serverEntrypointModule } from './chunks/_@astrojs-ssr-adapter_DnnRxO9G.mjs';
-import { manifest } from './manifest_CTPVqGxf.mjs';
+import { manifest } from './manifest_THX_E5M6.mjs';
 
 const serverIslandMap = new Map();;
 
@@ -21,13 +21,14 @@ const _page13 = () => import('./pages/careers.astro.mjs');
 const _page14 = () => import('./pages/contact.astro.mjs');
 const _page15 = () => import('./pages/couriers.astro.mjs');
 const _page16 = () => import('./pages/customers.astro.mjs');
-const _page17 = () => import('./pages/download.astro.mjs');
-const _page18 = () => import('./pages/faq.astro.mjs');
-const _page19 = () => import('./pages/partners.astro.mjs');
-const _page20 = () => import('./pages/press.astro.mjs');
-const _page21 = () => import('./pages/privacy.astro.mjs');
-const _page22 = () => import('./pages/terms.astro.mjs');
-const _page23 = () => import('./pages/index.astro.mjs');
+const _page17 = () => import('./pages/debug/routes.astro.mjs');
+const _page18 = () => import('./pages/download.astro.mjs');
+const _page19 = () => import('./pages/faq.astro.mjs');
+const _page20 = () => import('./pages/partners.astro.mjs');
+const _page21 = () => import('./pages/press.astro.mjs');
+const _page22 = () => import('./pages/privacy.astro.mjs');
+const _page23 = () => import('./pages/terms.astro.mjs');
+const _page24 = () => import('./pages/index.astro.mjs');
 const pageMap = new Map([
     ["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
     ["src/pages/404.astro", _page1],
@@ -46,13 +47,14 @@ const pageMap = new Map([
     ["src/pages/contact.astro", _page14],
     ["src/pages/couriers.astro", _page15],
     ["src/pages/customers.astro", _page16],
-    ["src/pages/download.ts", _page17],
-    ["src/pages/faq.astro", _page18],
-    ["src/pages/partners.astro", _page19],
-    ["src/pages/press.astro", _page20],
-    ["src/pages/privacy.astro", _page21],
-    ["src/pages/terms.astro", _page22],
-    ["src/pages/index.astro", _page23]
+    ["src/pages/debug/routes.astro", _page17],
+    ["src/pages/download.ts", _page18],
+    ["src/pages/faq.astro", _page19],
+    ["src/pages/partners.astro", _page20],
+    ["src/pages/press.astro", _page21],
+    ["src/pages/privacy.astro", _page22],
+    ["src/pages/terms.astro", _page23],
+    ["src/pages/index.astro", _page24]
 ]);
 
 const _manifest = Object.assign(manifest, {
@@ -63,7 +65,7 @@ const _manifest = Object.assign(manifest, {
     middleware: () => import('./_astro-internal_middleware.mjs')
 });
 const _args = {
-    "middlewareSecret": "ca86f7a6-71a2-44d5-9b6a-cadad55dbab0",
+    "middlewareSecret": "717d48a4-8758-4cd9-a623-f0aec3d616a0",
     "skewProtection": false
 };
 const _exports = createExports(_manifest, _args);

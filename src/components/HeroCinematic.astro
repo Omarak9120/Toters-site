@@ -36,7 +36,7 @@ const isRTL = locale === 'ar';
         data-cta="primary"
         class="btn fx-radial inline-flex items-center justify-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
         href="https://apps.apple.com/" 
-        rel="noopener" 
+        rel="noopener noreferrer" 
         target="_blank"
       >
             <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -48,7 +48,7 @@ const isRTL = locale === 'ar';
         data-hero="cta" 
         class="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-900 font-semibold rounded-lg border border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" 
         href="https://play.google.com/store/apps/details" 
-        rel="noopener" 
+        rel="noopener noreferrer" 
         target="_blank"
       >
             <svg class="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -108,9 +108,6 @@ const isRTL = locale === 'ar';
   </div>
 </section>
 
-<script type="module">
-  const root = document.querySelector("[data-hero-root]") as HTMLElement | null;
-  if (root) {
-    import("./heroCinematicMotion.ts").then(m => m.initHeroCinematic(root));
-  }
+<script type="module" is:inline>
+  import "/src/scripts/heroCinematic.ts";
 </script>

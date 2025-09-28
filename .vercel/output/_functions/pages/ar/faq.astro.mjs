@@ -1,7 +1,7 @@
 /* empty css                                    */
 import { e as createComponent, k as renderComponent, r as renderTemplate } from '../../chunks/astro/server_BaLT3vhi.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../../chunks/Base_CSXNzCkS.mjs';
+import { $ as $$Base } from '../../chunks/Base_B2Bgpkf5.mjs';
 import { $ as $$FAQ } from '../../chunks/FAQ_CEkmqO-r.mjs';
 import { a as ar } from '../../chunks/ar_BdymesVy.mjs';
 export { renderers } from '../../renderers.mjs';

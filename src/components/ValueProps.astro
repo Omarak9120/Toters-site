@@ -1,12 +1,30 @@
 ---
+type SimpleProp = { title: string; desc?: string };
+type RichProp   = { icon?: string; title: string; description?: string; features?: string[] };
+type Prop = SimpleProp | RichProp;
+
 export interface Props {
-  items?: Array<{ title: string; desc: string }>;
+  items?: Prop[];
+  content?: { props: Prop[] };
   locale?: string;
 }
 
-const { items, locale = 'en' } = Astro.props;
+const { items, locale = 'en' } = Astro.props as { items?: Prop[]; locale?: string };
 
-const isRTL = locale === 'ar';
+function has<K extends string>(obj: object, key: K): obj is Record<K, unknown> {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}
+function getDesc(p: Prop) {
+  return has(p, "desc") ? (p as SimpleProp).desc : (p as RichProp).description;
+}
+function getIconName(p: Prop) {
+  return has(p, "icon") ? (p as RichProp).icon : undefined;
+}
+function getFeatures(p: Prop) {
+  return has(p, "features") ? (p as RichProp).features : undefined;
+}
+
+const _isRTL = locale === 'ar';
 
 // Value propositions content translations
 const valuePropsContent = {
@@ -132,14 +150,14 @@ const getIcon = (iconType: string): string => {
 
     <!-- Value Propositions Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-stagger>
-      {(items || content.props).map((prop, index) => (
+      {(items || content.props).map((prop: Prop, _index: number) => (
         <div 
           class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary-200"
           data-anim="reveal"
         >
           <!-- Icon -->
           <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-100 text-primary-600 rounded-xl mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-            <Fragment set:html={getIcon(prop.icon || 'speed')} />
+            <Fragment set:html={getIcon(getIconName(prop) || 'speed')} />
           </div>
 
           <!-- Content -->
@@ -147,13 +165,13 @@ const getIcon = (iconType: string): string => {
             {prop.title}
           </h3>
           <p class="text-gray-600 mb-6 leading-relaxed">
-            {prop.desc || prop.description}
+            {getDesc(prop)}
           </p>
 
           <!-- Features List (only show if features exist) -->
-          {prop.features && (
+          {getFeatures(prop) && (
             <ul class="space-y-2">
-              {prop.features.map((feature) => (
+              {getFeatures(prop)!.map((feature: string) => (
                 <li class="flex items-center text-sm text-gray-700">
                   <svg class="w-4 h-4 text-primary-600 mr-2 rtl:mr-0 rtl:ml-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />

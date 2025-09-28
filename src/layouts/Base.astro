@@ -37,7 +37,7 @@ const appArg = `${siteUrl}/download`;
 const APP_ID = import.meta.env.PUBLIC_APP_STORE_ID || (import.meta.env.DEV ? "1234567890" : "");
 const PLAY_PKG = import.meta.env.PUBLIC_PLAY_PACKAGE || (import.meta.env.DEV ? "com.example.app" : "");
 
-function ensureLeadingSlash(p) { return p.startsWith("/") ? p : `/${p}`; }
+function ensureLeadingSlash(p: string) { return p.startsWith("/") ? p : `/${p}`; }
 
 // EN canonical is path without `/ar` prefix; AR canonical is `/ar` + path (deduped)
 const canonical = new URL(
@@ -121,9 +121,9 @@ const appsJson = [
 
     <!-- Canonical & hreflang -->
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" href={altEN} hreflang="en" />
-    <link rel="alternate" href={altAR} hreflang="ar-LB" />
-    <link rel="alternate" href={altEN} hreflang="x-default" />
+    <link rel="alternate" hreflang="x-default" href={altEN} />
+    <link rel="alternate" hreflang="en" href={altEN} />
+    <link rel="alternate" hreflang="ar" href={altAR} />
 
     <!-- Theme color -->
     <meta name="theme-color" content="#10b981" />
@@ -161,10 +161,10 @@ const appsJson = [
     <meta name="twitter:image" content={ogDynamic} />
 
     <!-- JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify(orgJson)} />
-    <script type="application/ld+json" set:html={JSON.stringify(appJson)} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgJson)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(appJson)} is:inline />
     {appsJson.length > 0 && (
-      <script type="application/ld+json" set:html={JSON.stringify(appsJson.length===1 ? appsJson[0] : appsJson)} />
+      <script type="application/ld+json" set:html={JSON.stringify(appsJson.length===1 ? appsJson[0] : appsJson)} is:inline />
     )}
 
     <!-- Analytics (Production Only) -->
@@ -188,40 +188,14 @@ const appsJson = [
   </head>
   <body>
     <slot />
-    <script type="module">
-      import { initFX } from "../lib/microFX.ts";
-
-      function boot(scope) {
-        try { initFX(scope); } catch (e) { console.error("[FX] init error", e); }
-      }
-
-      if (document.readyState !== "loading") boot();
-      else document.addEventListener("DOMContentLoaded", boot);
-
-      window.addEventListener("astro:page-load", boot);
-      window.addEventListener("astro:after-swap", boot);
-
-      // MutationObserver to catch counters added later
-      try {
-        const mo = new MutationObserver((mut) => {
-          for (const m of mut) {
-            for (const node of m.addedNodes) {
-              if (node instanceof HTMLElement &&
-                  (node.matches?.("[data-count], .counter, .js-count") ||
-                   node.querySelector?.("[data-count], .counter, .js-count"))) {
-                boot();
-                return;
-              }
-            }
-          }
-        });
-        mo.observe(document.body, { childList: true, subtree: true });
-      } catch {}
+    <script type="module" is:inline>
+      import { initFX } from "/src/lib/microFX.ts";
+      if (!document.documentElement.dataset.snap) initFX(document);
     </script>
 
     <!-- Analytics (Production Only, Consent-Gated) -->
     {import.meta.env.PROD && (
-      <script type="module">
+      <script type="module" is:inline>
         import { wireClicks, track, bootAnalytics, initAnalyticsOnConsent, consentGranted } from "../scripts/analytics.ts";
         if (consentGranted()) { 
           bootAnalytics(); 
@@ -234,7 +208,7 @@ const appsJson = [
     
     <!-- Sentry (Production Only, Consent-Gated) -->
     {import.meta.env.PROD && (
-      <script type="module">
+      <script type="module" is:inline>
         import { bootSentry } from "../scripts/sentry.ts";
         window.addEventListener("consent:granted", () => bootSentry());
         // also boot if consent is already granted
@@ -242,7 +216,7 @@ const appsJson = [
       </script>
     )}
     {import.meta.env.PROD && (
-      <script type="module">
+      <script type="module" is:inline>
         async function ping(url) {
           try { const r = await fetch(url, { method: "GET", cache: "no-store" }); return r.ok; } catch { return false; }
         }
@@ -278,7 +252,7 @@ const appsJson = [
 
     <!-- Cookie Consent Script (Production Only) -->
     {import.meta.env.PROD && (
-      <script type="module">
+      <script type="module" is:inline>
         const key = "analytics_consent";
         const root = document.getElementById("cc");
         const have = localStorage.getItem(key);
@@ -310,16 +284,13 @@ const appsJson = [
     )}
 
     {import.meta.env.DEV && (
-      <script>
-        window.__appMeta = {
-          apple: document.querySelector('meta[name="apple-itunes-app"]')?.content || null,
-          play: document.querySelector('meta[name="google-play-app"]')?.content || null
-        };
+      <script type="module" is:inline>
+        import "/src/scripts/appMetaDev.ts";
       </script>
     )}
 
     <!-- Snapshot mode (visual regression) -->
-    <script type="module">
+    <script type="module" is:inline>
       (function () {
         try {
           const qp = new URLSearchParams(location.search);
@@ -341,7 +312,7 @@ const appsJson = [
     </script>
 
     <!-- QA overlay toggle -->
-    <script type="module">
+    <script type="module" is:inline>
       (function () {
         try {
           const q = new URLSearchParams(location.search);

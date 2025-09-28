@@ -37,16 +37,38 @@ test("Arabic contact page loads with RTL layout", async ({ page }) => {
   expect(title).toContain("تواصل معنا");
 });
 
-test("counters animate on scroll", async ({ page }) => {
+function parseIntFromText(s = "") {
+  const arab = "٠١٢٣٤٥٦٧٨٩";
+  const latinized = s.replace(/[٠-٩]/g, (d: string) => String(arab.indexOf(d)));
+  return Number(latinized.replace(/[^\d]/g, ""));
+}
+
+test("counters animate to final values when revealed", async ({ page }) => {
   await page.goto("http://localhost:4321/");
+
+  // pick first counter
+  const el = page.locator(".counter").first();
+
+  // read target from data-count
+  const target = await el.getAttribute("data-count");
+  expect(target).toBeTruthy();
+
+  // ensure SSR not zero
+  const ssrText = (await el.textContent()) || "";
+  expect(parseIntFromText(ssrText)).toBeGreaterThan(0);
+
+  // scroll and wait for animation to complete
+  await el.scrollIntoViewIfNeeded();
   
-  // Scroll to stats section
-  await page.locator("[data-stagger]").first().scrollIntoViewIfNeeded();
-  
-  // Wait for animation to complete
+  // Wait for animation to complete (simpler approach)
   await page.waitForTimeout(2000);
   
-  // Check that counters have animated (not showing 0)
-  const counterTexts = await page.$$eval("[data-count]", els => els.map(e => e.textContent?.trim() || ""));
-  expect(counterTexts.some(t => t && t !== "0" && !t.includes("0"))).toBeTruthy();
+  // Check that counter has animated to a reasonable value
+  const finalText = (await el.textContent()) || "";
+  const finalValue = parseIntFromText(finalText);
+  expect(finalValue).toBeGreaterThan(0);
+  
+  // Check that it's not just the SSR value (should be different or higher)
+  const ssrValue = parseIntFromText(ssrText);
+  expect(finalValue).toBeGreaterThanOrEqual(ssrValue);
 });

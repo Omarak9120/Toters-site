@@ -9,11 +9,15 @@
     "preview": "astro preview --port 4321 --host",
     "serve": "astro dev --port 4321 --host",
     "lint": "eslint .",
+    "typecheck": "astro check",
+    "audit:report": "node scripts/audit-report.mjs",
+    "audit:local": "cross-env BASE_URL=http://localhost:4321 npm run audit:report",
+    "audit:prod": "cross-env BASE_URL=https://toters-site-mqzpja5gv-omarak9120-gmailcoms-projects.vercel.app npm run audit:report",
+    "audit:all": "npm run typecheck && npm run test:e2e && npm run test:jobs && npm run test:visual && npm run audit:local",
     "check:links": "astro build && astro preview & npx wait-on http://localhost:4321 && npx linkinator http://localhost:4321 --silent --recurse --timeout 30000 --skip '.*(localhost:4321/\\?qa=1).*'",
     "audit": "start-server-and-test preview http://localhost:4321 \"lighthouse http://localhost:4321 --quiet --chrome-flags='--headless=new' --only-categories=performance,accessibility,seo,best-practices --output html --output-path reports/lh.html --budgets-path=./lighthouse-budgets.json\"",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:faq": "playwright test tests/faq.spec.ts",
+    "test:dev": "cross-env USE_PREVIEW=0 playwright test",
+    "test:preview": "cross-env USE_PREVIEW=1 playwright test",
     "test:jobs": "playwright test tests/jobs.spec.ts",
     "test:visual": "playwright test tests/visual.spec.ts",
     "test:visual:update": "playwright test tests/visual.spec.ts --update-snapshots"
@@ -28,12 +32,15 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/vercel": "^8.2.8",
     "@playwright/test": "^1.55.1",
     "@sentry/browser": "^10.15.0",
+    "cross-env": "^10.0.0",
     "lighthouse": "^12.8.2",
     "linkinator": "^6.1.4",
     "qrcode": "^1.5.4",
+    "typescript": "^5.9.2",
     "wait-on": "^9.0.1"
   }
 }

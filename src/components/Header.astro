@@ -8,7 +8,7 @@ export interface Props {
 
 const { locale = 'en', currentPath = '/' } = Astro.props;
 
-const isRTL = locale === 'ar';
+const _isRTL = locale === 'ar';
 
 // Navigation items
 const navItems = {
@@ -19,7 +19,7 @@ const navItems = {
     { label: 'For Couriers', href: '/couriers' },
     { label: 'FAQ', href: '/faq' },
     { label: 'About', href: '/about' },
-    { label: 'Careers', href: '/careers' },
+    { label: 'Careers', href: '/careers/' },
     { label: 'Press Kit', href: '/press' },
     { label: 'Contact', href: '/contact' }
   ],
@@ -30,7 +30,7 @@ const navItems = {
     { label: 'للمندوبين', href: '/ar/couriers' },
     { label: 'الأسئلة الشائعة', href: '/ar/faq' },
     { label: 'من نحن', href: '/ar/about' },
-    { label: 'الوظائف', href: '/ar/careers' },
+    { label: 'الوظائف', href: '/ar/careers/' },
     { label: 'مركز الصحافة', href: '/ar/press' },
     { label: 'اتصل بنا', href: '/ar/contact' }
   ]

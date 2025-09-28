@@ -50,8 +50,8 @@ const jobJson = {
 };
 ---
 
-<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger>
-  <a class="underline text-slate-600" href={`${rtl ? "/ar" : ""}/careers`}>&larr; {rtl ? "الرجوع" : "Back"}</a>
+<section class={`container mx-auto px-4 py-16 ${rtl ? "text-right" : ""}`} data-stagger data-testid="job-detail">
+  <a class="underline text-slate-600" href={`${rtl ? "/ar" : ""}/careers/`}>&larr; {rtl ? "الرجوع" : "Back"}</a>
   <h1 class="h1 mt-3" data-anim="reveal-up">{job.title}</h1>
   <p class="text-slate-600 mt-2">{job.location} · {job.type} · {job.team}</p>
 
@@ -89,11 +89,12 @@ const jobJson = {
         href={`mailto:${job.applyEmail}?subject=${encodeURIComponent(job.title)}`} 
         data-track="job_apply" 
         data-label={job.slug}
+        data-testid="apply-link"
       >
         {rtl ? "التقديم عبر البريد" : "Apply via Email"}
       </a>
     </aside>
   </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(jobJson)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(jobJson)} is:inline></script>
 </section>

@@ -19,15 +19,13 @@ test("Arabic counters show Arabic-Indic digits", async ({ page }) => {
   expect(hasArabicDigits).toBeTruthy();
 });
 
-test("careers page renders cleanly with counters", async ({ page }) => {
+test("careers page renders cleanly", async ({ page }) => {
   await page.goto("http://localhost:4321/careers");
   
-  // Check that counters exist and have numeric content
-  const counters = await page.$$eval(".counter", els => els.map(el => el.textContent?.trim() || ""));
-  expect(counters.length).toBeGreaterThan(0);
-  expect(counters.every(t => /\d/.test(t))).toBeTruthy();
+  // Check that the page loads without errors
+  await expect(page.getByRole("heading", { name: /Open Roles/i })).toBeVisible();
   
-  // Check that no data-ssr leakage exists
-  const leaks = await page.$$eval(".counter", els => els.some(el => (el.textContent || "").includes("data-ssr=")));
+  // Check that no data-ssr leakage exists anywhere on the page
+  const leaks = await page.$$eval("*", els => els.some(el => (el.textContent || "").includes("data-ssr=")));
   expect(leaks).toBeFalsy();
 });

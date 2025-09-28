@@ -1,5 +1,3 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://www.totersapp.com/sitemap.xml
+Disallow: /debug/
 Sitemap: https://www.totersapp.com/sitemap-index.xml

@@ -7,7 +7,7 @@ export interface Props {
 
 const { locale = 'en' } = Astro.props;
 
-const isRTL = locale === 'ar';
+const _isRTL = locale === 'ar';
 
 // Stats content translations
 const statsContent = {
@@ -50,7 +50,7 @@ const content = statsContent[locale as keyof typeof statsContent] || statsConten
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" data-stagger>
-      {content.stats.map((stat, index) => (
+      {content.stats.map((stat, _index) => (
         <div class="group" data-anim="reveal">
           <Counter 
             className="text-3xl sm:text-4xl font-extrabold text-primary-600 mb-2 gpu"

@@ -3,7 +3,8 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/en(/.*)?", "destination": "/", "permanent": true },
-    { "source": "/ar-en(/.*)?", "destination": "/ar", "permanent": true }
+    { "source": "/ar-en(/.*)?", "destination": "/ar", "permanent": true },
+    { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "permanent": true }
   ],
   "headers": [
     {

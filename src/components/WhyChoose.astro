@@ -8,7 +8,7 @@ export interface Props {
   locale?: string;
 }
 
-const { section = {}, locale = 'en' } = Astro.props;
+const { section = {} } = Astro.props;
 
 // Safe fallback content
 const list = Array.isArray(section.items) && section.items.length ? section.items : [
