@@ -1,8 +1,8 @@
 /* empty css                                    */
-import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_BaLT3vhi.mjs';
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../../chunks/Base_B2Bgpkf5.mjs';
-import { $ as $$Header, a as $$Footer } from '../../chunks/Footer_CA1h9Lmv.mjs';
+import { $ as $$Base } from '../../chunks/Base_jNEBnjtC.mjs';
+import { $ as $$Header, a as $$Footer } from '../../chunks/Footer_DMCt0H4A.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Terms = createComponent(($$result, $$props, $$slots) => {

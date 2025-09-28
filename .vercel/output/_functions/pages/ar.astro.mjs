@@ -1,9 +1,9 @@
 /* empty css                                 */
-import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BaLT3vhi.mjs';
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_B2Bgpkf5.mjs';
-import { $ as $$Header, a as $$Footer } from '../chunks/Footer_CA1h9Lmv.mjs';
-import { $ as $$HeroCinematic, a as $$ValueProps, b as $$Stats, c as $$AppBadges, d as $$FeaturesGrid, e as $$WhyChoose, f as $$HowItWorks } from '../chunks/HowItWorks_uzf6UPZc.mjs';
+import { $ as $$Base } from '../chunks/Base_jNEBnjtC.mjs';
+import { $ as $$Header, a as $$Footer } from '../chunks/Footer_DMCt0H4A.mjs';
+import { $ as $$HeroCinematic, a as $$ValueProps, b as $$Stats, c as $$AppBadges, d as $$FeaturesGrid, e as $$WhyChoose, f as $$HowItWorks } from '../chunks/HowItWorks_rWqtVTO1.mjs';
 import { a as ar } from '../chunks/ar_BdymesVy.mjs';
 export { renderers } from '../renderers.mjs';
 

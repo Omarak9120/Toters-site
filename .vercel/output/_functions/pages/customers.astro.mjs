@@ -1,14 +1,14 @@
 /* empty css                                 */
-import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BaLT3vhi.mjs';
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_B2Bgpkf5.mjs';
-import { $ as $$Header, a as $$Footer } from '../chunks/Footer_CA1h9Lmv.mjs';
+import { $ as $$Base } from '../chunks/Base_jNEBnjtC.mjs';
+import { $ as $$Header, a as $$Footer } from '../chunks/Footer_DMCt0H4A.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Customers = createComponent(($$result, $$props, $$slots) => {
   const locale = "en";
   const currentPath = "/customers";
-  return renderTemplate`${renderComponent($$result, "Base", $$Base, { "title": "For Customers - Toters", "description": "Discover how Toters makes food delivery fast, easy, and reliable for customers.", "locale": locale }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "Header", $$Header, { "locale": locale, "currentPath": currentPath })} ${maybeRenderHead()}<main> <!-- Hero Section --> <section class="bg-gradient-to-br from-primary-50 to-primary-100 py-20"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="text-center"> <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+  return renderTemplate`${renderComponent($$result, "Base", $$Base, { "title": "For Customers - Toters", "description": "Discover how Toters makes food delivery fast, easy, and reliable for customers." }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "Header", $$Header, { "locale": locale, "currentPath": currentPath })} ${maybeRenderHead()}<main> <!-- Hero Section --> <section class="bg-gradient-to-br from-primary-50 to-primary-100 py-20"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="text-center"> <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
 For Customers
 </h1> <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
 Get your favorite food delivered fast and fresh. Browse thousands of restaurants, track your order in real-time, and enjoy convenient delivery right to your door.

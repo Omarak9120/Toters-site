@@ -13,7 +13,7 @@ import Base from "../layouts/Base.astro";
 
   <!-- 404 Analytics Tracking (Production Only) -->
   {import.meta.env.PROD && (
-    <script type="module">
+    <script type="module" is:inline>
       import { track } from "../scripts/analytics.ts"; 
       track("view_404", { path: location.pathname });
     </script>

@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.totersapp.com", // <-- set final domain
+  site: "https://toters-site.vercel.app", // <-- Vercel domain
   output: 'server',
   adapter: vercel(),
   trailingSlash: 'ignore', // accepts /careers and /careers/

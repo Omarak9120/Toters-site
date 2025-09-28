@@ -1,4 +1,6 @@
 ---
+import SpeedInsights from "@vercel/speed-insights/astro";
+
 export interface Props {
   title?: string;
   description?: string;
@@ -338,5 +340,8 @@ const appsJson = [
         } catch {}
       })();
     </script>
+
+    <!-- Vercel Speed Insights -->
+    <SpeedInsights />
   </body>
 </html>

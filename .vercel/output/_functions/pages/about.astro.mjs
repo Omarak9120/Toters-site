@@ -1,15 +1,15 @@
 /* empty css                                 */
-import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BaLT3vhi.mjs';
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_B2Bgpkf5.mjs';
-import { $ as $$Header, a as $$Footer } from '../chunks/Footer_CA1h9Lmv.mjs';
-import { $ as $$Counter } from '../chunks/Counter_D4iMPVMM.mjs';
+import { $ as $$Base } from '../chunks/Base_jNEBnjtC.mjs';
+import { $ as $$Header, a as $$Footer } from '../chunks/Footer_DMCt0H4A.mjs';
+import { $ as $$Counter } from '../chunks/Counter_BcMfJnuA.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$About = createComponent(($$result, $$props, $$slots) => {
   const locale = "en";
   const currentPath = "/about";
-  return renderTemplate`${renderComponent($$result, "Base", $$Base, { "title": "About Us - Toters", "description": "Learn about Toters' mission to connect customers with local restaurants and stores through fast, reliable delivery.", "locale": locale }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "Header", $$Header, { "locale": locale, "currentPath": currentPath })} ${maybeRenderHead()}<main> <!-- Hero Section --> <section class="bg-gradient-to-br from-primary-50 to-primary-100 py-20"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="text-center"> <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+  return renderTemplate`${renderComponent($$result, "Base", $$Base, { "title": "About Us - Toters", "description": "Learn about Toters' mission to connect customers with local restaurants and stores through fast, reliable delivery." }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "Header", $$Header, { "locale": locale, "currentPath": currentPath })} ${maybeRenderHead()}<main> <!-- Hero Section --> <section class="bg-gradient-to-br from-primary-50 to-primary-100 py-20"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="text-center"> <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
 About Toters
 </h1> <p class="text-xl text-gray-600 max-w-3xl mx-auto">
 We're on a mission to connect customers with local restaurants and stores through fast, reliable delivery services.

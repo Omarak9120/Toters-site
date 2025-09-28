@@ -1,3 +1,3 @@
 User-agent: *
 Disallow: /debug/
-Sitemap: https://www.totersapp.com/sitemap-index.xml
+Sitemap: https://toters-site.vercel.app/sitemap-index.xml
