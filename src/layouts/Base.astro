@@ -191,9 +191,15 @@ const appsJson = [
   </head>
   <body>
     <slot />
+    <!-- Snapshot mode (opt-in only) -->
+    <script type="module" is:inline>
+      import "/src/scripts/snapMode.ts";
+    </script>
+    
+    <!-- FX initialization -->
     <script type="module" is:inline>
       import { initFX } from "/src/lib/microFX.ts";
-      if (!document.documentElement.dataset.snap) initFX(document);
+      initFX(document);
     </script>
 
     <!-- Analytics (Production Only, Consent-Gated) -->

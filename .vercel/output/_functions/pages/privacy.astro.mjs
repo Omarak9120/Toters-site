@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DAhPDGWu.mjs';
 import 'kleur/colors';
-import { $ as $$Base } from '../chunks/Base_C5LJedQs.mjs';
+import { $ as $$Base } from '../chunks/Base_CMBrA3MR.mjs';
 import { $ as $$Header, a as $$Footer } from '../chunks/Footer_DMCt0H4A.mjs';
 export { renderers } from '../renderers.mjs';
 

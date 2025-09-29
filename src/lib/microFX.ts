@@ -173,7 +173,9 @@ export function initCounters(scope: Document | HTMLElement = document) {
 
 let __fxBooted = false;
 export function initFX(scope: Document | HTMLElement = document) {
+  // Check snapshot mode first
   if (typeof document !== "undefined" && document.documentElement.dataset.snap === "1") {
+    document.body.dataset.fx = "snap"; // mark frozen
     // In snapshot mode, keep SSR final values and disable FX
     scope.querySelectorAll<HTMLElement>(".counter,[data-count],.js-count").forEach((el) => {
       const ssr = (el.textContent || "").trim();
@@ -186,7 +188,19 @@ export function initFX(scope: Document | HTMLElement = document) {
     });
     return;
   }
+
+  // Check reduced motion
+  if (reduced()) {
+    console.log("[FX] reduced motion");
+    document.body.dataset.fx = "reduced";
+    return;
+  }
+
   if (__fxBooted) return; __fxBooted = true;
+  
+  // Mark FX as ready
+  document.body.dataset.fx = "ready";
+  
   initScrollReveals(scope); 
   initCtaFX(scope); 
   initCounters(scope);
@@ -200,8 +214,8 @@ export function initFX(scope: Document | HTMLElement = document) {
   }
 }
 
-// DEV probe (safe to keep)
-if (typeof window !== "undefined" && (import.meta as any).env.DEV) {
+// FX probe (available in all environments)
+if (typeof window !== "undefined") {
   // @ts-ignore
   (window as any).__fx = {
     probe() {
